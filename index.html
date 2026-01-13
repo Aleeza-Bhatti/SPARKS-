@@ -6,8 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sparks-extension-prototype</title>
   </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<body>
+  <main class="demo-page">
+    <h1>Shopping Page Demo</h1>
+    <p>Imagine this is a shopping results page, Sparks overlays on top.</p>
+    <div class="fake-grid">
+      <div class="fake-card"></div>
+      <div class="fake-card"></div>
+      <div class="fake-card"></div>
+      <div class="fake-card"></div>
+      <div class="fake-card"></div>
+      <div class="fake-card"></div>
+    </div>
+  </main>
+
+  <!-- Top-right prompt -->
+  <button id="sparksPrompt" class="sparks-prompt" type="button">
+    Not finding what matches your preferences?
+  </button>
+
+  <!-- Right-edge pull tab (visible after closing panel) -->
+  <button id="sparksTab" class="sparks-tab hidden" type="button">
+    Sparks
+  </button>
+
+  <!-- Right-side panel -->
+  <aside id="sparksPanel" class="sparks-panel hidden" aria-label="Sparks panel">
+    <div class="sparks-header">
+      <div class="sparks-title">Sparks</div>
+      <button id="sparksClose" class="sparks-icon-btn" type="button" aria-label="Close">
+        ✕
+      </button>
+    </div>
+
+    <div id="cardRoot" class="sparks-card-root">
+      <!-- We will render the business card here next -->
+      <div class="sparks-placeholder">
+        Phase 1: Panel shell is live. Next: swipeable business card.
+      </div>
+    </div>
+
+    <div class="sparks-actions">
+      <button id="skipBtn" class="sparks-btn secondary" type="button">Skip</button>
+      <button id="saveBtn" class="sparks-btn secondary" type="button">Save</button>
+      <button id="sparkBtn" class="sparks-btn primary" type="button">Spark</button>
+    </div>
+  </aside>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
