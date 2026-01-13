@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparks-extension-prototype</title>
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sparks-extension-prototype</title>
+</head>
+
 <body>
   <main class="demo-page">
     <h1>Shopping Page Demo</h1>
@@ -39,18 +41,13 @@
       </button>
     </div>
 
-    <div id="cardRoot" class="sparks-card-root">
-      <!-- We will render the business card here next -->
-      <div class="sparks-placeholder">
-        Phase 1: Panel shell is live. Next: swipeable business card.
-      </div>
-    </div>
+    <div id="cardRoot" class="sparks-card-root"></div>
 
-    <div class="sparks-actions">
+    <div class="sparks-actions two">
       <button id="skipBtn" class="sparks-btn secondary" type="button">Skip</button>
-      <button id="saveBtn" class="sparks-btn secondary" type="button">Save</button>
       <button id="sparkBtn" class="sparks-btn primary" type="button">Spark</button>
     </div>
+
   </aside>
 
   <script type="module" src="/src/main.js"></script>
