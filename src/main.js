@@ -21,6 +21,12 @@ const businesses = [
       { title: "Long Sleeve Dress", price: "$84" },
       { title: "Loose Fit Top", price: "$76" },
       { title: "Maxi Skirt", price: "$82" },
+      { title: "Long Sleeve Dress", price: "$84" },
+      { title: "Loose Fit Top", price: "$76" },
+      { title: "Maxi Skirt", price: "$82" },
+      { title: "Everyday Tunic", price: "$68" },
+      { title: "Relaxed Cardigan", price: "$71" },
+      { title: "Layering Set", price: "$89" },
     ],
   },
   {
@@ -111,18 +117,21 @@ function render() {
       ${biz.tags.map((t) => `<span class="sparks-tag red">${t} ✓</span>`).join("")}
     </div>
 
-    <div class="sparks-products centered">
-      ${biz.products
+    <div class="sparks-products-scroll">
+  ${biz.products
       .map(
         (p) => `
-            <div class="sparks-product photo">
-              <div class="sparks-product-img"></div>
-              <div class="sparks-product-price">${p.price}</div>
-            </div>
-          `
+        <div class="sparks-product-tile" title="${p.title}">
+          <div class="sparks-product-img"></div>
+          <div class="sparks-product-meta">
+            <div class="sparks-product-title">${p.title}</div>
+            <div class="sparks-product-price">${p.price}</div>
+          </div>
+        </div>
+      `
       )
       .join("")}
-    </div>
+</div>
   </div>
 `;
 

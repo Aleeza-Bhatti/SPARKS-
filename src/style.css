@@ -342,11 +342,6 @@ body {
     font-weight: 900;
 }
 
-.sparks-products.centered {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 10px 6px 6px 6px;
-}
 
 .sparks-product.photo {
     aspect-ratio: 1 / 1;
@@ -368,4 +363,63 @@ body {
     font-weight: 900;
     padding-top: 8px;
     color: rgba(0, 0, 0, 0.65);
+}
+
+/* Horizontal product scroller */
+.sparks-products-scroll {
+  margin-top: 16px;
+  padding: 10px 6px 6px 6px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sparks-products-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.sparks-products-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+}
+
+.sparks-product-tile {
+  flex: 0 0 140px;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.sparks-product-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sparks-product-meta {
+  padding: 10px 10px 12px 10px;
+}
+
+.sparks-product-title {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: rgba(0, 0, 0, 0.75);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 30px;
+}
+
+.sparks-product-price {
+  margin-top: 8px;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.65);
 }
