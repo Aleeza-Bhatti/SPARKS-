@@ -1,0 +1,24 @@
+[
+    {
+      "id": "prod_001",
+      "name": "Linen Button-Down Abaya",
+      "brand": "Nura Studio",
+      "price": 128,
+      "currency": "USD",
+      "imageUrl": "https://example.com/images/linen-abaya.jpg",
+      "productUrl": "https://nurastudio.com/products/linen-button-down-abaya",
+      "category": "abaya",
+      "tags": ["linen", "neutral", "modest", "minimal"]
+    },
+    {
+      "id": "prod_002",
+      "name": "Soft Knit Maxi Dress",
+      "brand": "Amara Collective",
+      "price": 96,
+      "currency": "USD",
+      "imageUrl": "https://example.com/images/knit-maxi.jpg",
+      "productUrl": "https://amaracollective.com/products/soft-knit-maxi",
+      "category": "dress",
+      "tags": ["cozy", "everyday", "modest"]
+    },
+]
