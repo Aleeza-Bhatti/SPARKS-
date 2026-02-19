@@ -34,7 +34,7 @@
     },
     {
       "id": "prod_004",
-      "name": "APHRODITE Maxi Dress - Rose",
+      "name": "Aphrodite Maxi Dress - Rose",
       "brand": "Amariah",
       "price": 119.00,
       "currency": "USD",
@@ -74,7 +74,7 @@
       "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/Zahraa_July24_0734-1_d501dd23-7e6b-4918-977d-652c35d93b69.jpg?v=1727108972&width=1200",
       "productUrl": "https://www.zahraathelabel.com/products/essential-modal-hijab-charlotte",
       "category": "hijab",
-      "tags": ["hijab", "modal", "essential", "charlotte", "beige"
+      "tags": ["hijab", "modal", "essential", "charlotte", "beige"]
     },
     {
       "id": "prod_008",
@@ -218,5 +218,225 @@
       "productUrl": "https://lameeramoda.com/collections/modal-hijabs/products/premium-modal-scarf-denim-blue",
       "category": "hijab",
       "tags": ["hijab", "modal", "denim blue"]
+    }
+    {
+      "id": "prod_021",
+      "name": "Ayla Linen Tie Abaya Set- Koala Gray",
+      "brand": "Lameera", 
+      "price": 135.00,
+      "currency": "USD",
+      "imageUrl": "https://lameeramoda.com/cdn/shop/files/8_38caafcc-d955-460a-b963-91be5451a388.jpg?v=1728713783&width=1200",
+      "productUrl": "https://lameeramoda.com/products/ayla-linen-tie-abaya-set-koala-gray?pr_prod_strat=jac&pr_rec_id=06436a810&pr_rec_pid=8652988874920&pr_ref_pid=9064634515624&pr_seq=uniform",
+      "category": "abaya",
+      "tags": ["abaya", "linen", "tie", "koala gray", "two-piece"]
+    }
+  {
+      "id": "prod_022",
+      "name": "(Mint) Chiffon Abaya",
+      "brand": "Sumayah Shop",
+      "price": 50.00,
+      "currency": "USD",
+      "imageUrl": "https://a-sumayahshop.com/cdn/shop/files/92DD2905-112C-4285-8872-5034F095DB89.jpg?v=1723393442&width=1600",
+      "productUrl": "https://a-sumayahshop.com/products/black-pleated-wide-leg-pants?variant=43391171068158",
+      "category": "bottom",
+      "tags": ["bottom", "pleated", "wide leg", "pants", "black"]
+    }
+    {
+      "id": "prod_023",
+      "name": "(Black) Pleated Wide Leg Pants",
+      "brand": "Sumayah Shop",
+      "price": 35.00,
+      "currency": "USD",
+      "imageUrl": "https://a-sumayahshop.com/cdn/shop/files/261FB546-B498-4739-9A8F-862EC7E3009D.jpg?v=1740873362&width=1600",
+      "productUrl": "https://a-sumayahshop.com/products/mint-chiffon-abaya?variant=46348750553342",
+      "category": "abaya",
+      "tags": ["abaya", "mint", "chiffon", "pockets", "belt"]
+    }
+   {
+      "id": "prod_024",
+      "name": "Pleated Lounge Top & Pants Set - Ocean",
+      "brand": "Veiled",
+      "price": 95.20,
+      "currency": "USD",
+      "imageUrl": "https://veiled.com/cdn/shop/files/pleated-lounge-top-pants-set-ocean-786925.jpg?v=1769726165&width=1400",
+      "productUrl": "https://veiled.com/products/pleated-lounge-top-pants-set-ocean",
+      "category": "set",
+      "tags": ["set", "lounge", "top", "pants", "ocean", "blue", "wide leg"]
+    }
+    {
+      "id": "prod_025",
+      "name": "Layla Maxi Dress - Pomegranate",
+      "brand": "Veiled",
+      "price": 89.00,
+      "currency": "USD",
+      "imageUrl": "https://veiled.com/cdn/shop/files/layla-maxi-dress-pomegranate-876615.jpg?v=1770743191&width=1400",
+      "productUrl": "https://veiled.com/products/layla-maxi-dress-pomegranate",
+      "category": "dress",
+      "tags": ["dress", "maxi", "satin", "pomegranate", "red", "flare sleeves"]
+    }
+    {
+      "id": "prod_026",
+      "name": "Cinch Waist Cardigan - Caramel",
+      "brand": "Veiled",
+      "price": 60.00,
+      "currency": "USD",
+      "imageUrl": "https://veiled.com/cdn/shop/files/cinch-waist-cardigan-caramel-895537.jpg?v=1770158666&width=1400",
+      "productUrl": "https://veiled.com/products/cinch-waist-jacket-caramel",
+      "category": "outerwear",
+      "tags": ["outerwear", "cardigan", "waist", "caramel", "brown"]
+    }
+    {
+      "id": "prod_027",
+      "name": "Lunar Teal Modal Hijab",
+      "brand": "Vela",
+      "price": 19.99,
+      "currency": "USD",
+      "imageUrl": "https://velascarves.com/cdn/shop/files/LunarTeal2.jpg?v=1770789584&width=3000",
+      "productUrl": "https://velascarves.com/collections/solid-wovens/products/lunar-teal",
+      "category": "hijab",
+      "tags": ["hijab", "modal", "teal", "solid"]
+    }
+    {
+      "id": "prod_028",
+      "name": "Ezra Button Up Lounge Set - Olive Green",
+      "brand": "Aamariah",
+      "price": 31.00,
+      "currency": "USD",
+      "imageUrl": "https://www.modestessential.com/cdn/shop/files/MODESTESSENTIALFEB2026-61.jpg?v=1771051795&width=5000",
+      "productUrl": "https://www.modestessential.com/en-us/collections/ramadan-dresses/products/ombre-dress-grey-copy",
+      "category": "dress",
+      "tags": ["dress", "ombre", "maxi", "satin"]
+    }
+    {
+      "id": "prod_029",
+      "name": "Isabella Matching Knit Satin Set",
+      "brand": "Zahraa the Label",
+      "price": 95.40,
+      "currency": "USD",
+      "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/2025_1018_ZTL0959.jpg?v=1763568507&width=1200",
+      "productUrl": "https://www.zahraathelabel.com/products/isabella-matching-knit-satin-set",
+      "category": "set",
+      "tags": ["dress", "cardigan", "satin", "button", "plum"]
+    }
+      {
+      "id": "prod_030",
+      "name": "Blue Marble Modal Hijab",
+      "brand": "Zahraa the Label",
+      "price": 20.00,
+      "currency": "USD",
+      "imageUrl": "https://us.hawaaclothing.com/cdn/shop/files/23-06-Hawaa2998_90f7ab0d-e90b-4f18-9d75-c15b76d3432e.jpg?v=1752773219&width=1400",
+      "productUrl": "https://us.hawaaclothing.com/collections/printed-modals/products/blue-printed-marble-modal-hijab",
+      "category": "hijab",
+      "tags": ["hijab", "marble", "blue", "modal"]
+    }
+  {
+      "id": "prod_031",
+      "name": "Desert Dreams",
+      "brand": "Vela",
+      "price": 27.00,
+      "currency": "USD",
+      "imageUrl": "https://velascarves.com/cdn/shop/files/DesertDreams4.jpg?v=1770327690&width=3000",
+      "productUrl": "https://velascarves.com/collections/prints/products/desert-dreams",
+      "category": "hijab",
+      "tags": ["hijab", "tan", "print", "modal"]
+    }
+      {
+      "id": "prod_032",
+      "name": "Desert Dreams",
+      "brand": "Vela",
+      "price": 27.00,
+      "currency": "USD",
+      "imageUrl": "https://velascarves.com/cdn/shop/files/DesertDreams4.jpg?v=1770327690&width=3000",
+      "productUrl": "https://velascarves.com/collections/prints/products/desert-dreams",
+      "category": "hijab",
+      "tags": ["hijab", "beige", "print", "modal"]
+    }
+    {
+      "id": "prod_033",
+      "name": "Asymmetrical Long Sleeve Top Black",
+      "brand": "Vela",
+      "price": 37.00,
+      "currency": "USD",
+      "imageUrl": "https://velascarves.com/cdn/shop/files/APPAREL-29_7e9f425f-5bb8-4ec7-9caf-3aea8c223259.jpg?v=1762884700&width=3000",
+      "productUrl": "https://velascarves.com/collections/apparel-essentials/products/asymmetrical-long-sleeve-top-black",
+      "category": "top",
+      "tags": ["top", "black", "asymmetrical", "jersey"]
+    }
+    {
+      "id": "prod_034",
+      "name": "Maryam Dress",
+      "brand": "Ayna Modest Boutique",
+      "price": 29.00,
+      "currency": "USD",
+      "imageUrl": "https://143255385.cdn6.editmysite.com/uploads/1/4/3/2/143255385/F66WT3CUTLDIHOIYMFJYVVBX.jpeg?width=2560&optimize=medium",
+      "productUrl": "https://www.aynausa.com/product/maryam-dress/422?cp=true&sa=false&sbp=false&q=false&category_id=5",
+      "category": "dress",
+      "tags": ["dress", "pink", "chiffon", "maxi", "tie design"]
+    }
+     {
+      "id": "prod_035",
+      "name": "Amelia Skirt Set",
+      "brand": "Ayna Modest Boutique",
+      "price": 95.20,
+      "currency": "USD",
+      "imageUrl": "https://143255385.cdn6.editmysite.com/uploads/1/4/3/2/143255385/JYX6KBVLMUIO7TXSDO5NXQUM.jpeg?width=2560&optimize=medium",
+      "productUrl": "https://www.aynausa.com/product/amelia-skirt-set/A2VGNJEZ5I4FIXGZBXOFDCN4?cp=true&sa=false&sbp=false&q=false&category_id=8",
+      "category": "set",
+      "tags": ["skirt", "set", "collar", "drop waist", "maxi", "mink"]
+    }
+     {
+      "id": "prod_036",
+      "name": "Rea Textured Chiffon Maxi Dress - Dark Lavendar",
+      "brand": "Lameera",
+      "price": 95.00,
+      "currency": "USD",
+      "imageUrl": "https://lameeramoda.com/cdn/shop/files/Ramadan26_0057_Layer74_af5ff958-3be5-47a5-9df4-e45eb2dace4c.jpg?v=1770348639&width=1200",
+      "productUrl": "https://lameeramoda.com/collections/ramadan-26/products/rea-textured-chiffon-maxi-dress-dark-lavendar",
+      "category": "dress",
+      "tags": ["dress", "lavender", "chiffon", "maxi"]
+    }
+   {
+      "id": "prod_037",
+      "name": "Qamar Embroidery Abaya Set- Beige",
+      "brand": "Lameera",
+      "price": 120.00,
+      "currency": "USD",
+      "imageUrl": "https://lameeramoda.com/cdn/shop/files/Ramadan26_0049_Layer86.jpg?v=1770344294&width=1200",
+      "productUrl": "https://lameeramoda.com/products/qamar-embroidery-abaya-set-beige?pr_prod_strat=collection_fallback&pr_rec_id=548703c86&pr_rec_pid=8783940518056&pr_ref_pid=9293784350888&pr_seq=uniform",
+      "category": "abaya",
+      "tags": ["two piece", "beige", "embroidery", "abaya"]
+    }
+   {
+      "id": "prod_038",
+      "name": "Batul Abaya",
+      "brand": "Amirahldn",
+      "price": 50.72,
+      "currency": "USD",
+      "imageUrl": "https://amirahldn.com/cdn/shop/files/C3B1463B-71C6-44A4-97E6-9F8D3EDD1AE6.jpg?v=1753119189&width=1400",
+      "productUrl": "https://amirahldn.com/products/batul-abaya",
+      "category": "abaya",
+      "tags": ["Korean nida", "rose", "abaya"]
+    }
+    {
+      "id": "prod_039",
+      "name": "Navy Taffeta Belted Maxi Skirt",
+      "brand": "Store WF",
+      "price": 60.99,
+      "currency": "USD",
+      "imageUrl": "https://storewf.com/cdn/shop/files/storewf296.jpg?v=1747210289&width=1500",
+      "productUrl": "https://storewf.com/products/navy-taffeta-belted-maxi-skirt?variant=55244745113980",
+      "category": "skirt",
+      "tags": ["skirt", "taffeta", "navy blue"]
+    }
+       {
+      "id": "prod_040",
+      "name": "Navy Taffeta Belted Maxi Skirt",
+      "brand": "Store WF",
+      "price": 60.99,
+      "currency": "USD",
+      "imageUrl": "https://storewf.com/cdn/shop/files/storewf296.jpg?v=1747210289&width=1500",
+      "productUrl": "https://storewf.com/products/navy-taffeta-belted-maxi-skirt?variant=55244745113980",
+      "category": "skirt",
+      "tags": ["skirt", "taffeta", "navy blue"]
     }
 ]
