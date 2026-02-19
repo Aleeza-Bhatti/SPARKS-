@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Nunito+Sans:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Nunito+Sans:wght@400;600&display=swap");
 
 :root {
   color-scheme: light;
@@ -763,6 +763,29 @@ body.landing-screen .product-collage {
 .price {
   font-weight: 600;
   font-size: 16px;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-view-store {
+  background: var(--accent-dark);
+  color: var(--white);
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.btn-view-store:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 
 .btn-spark {

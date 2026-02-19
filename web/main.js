@@ -1,4 +1,4 @@
-﻿import "./style.css";
+import "./style.css";
 
 const screens = Array.from(document.querySelectorAll(".screen"));
 const connectBtn = document.getElementById("connectBtn");
@@ -116,30 +116,44 @@ const hydrateResults = () => {
   });
 };
 
+const escapeAttr = (s) => (s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
 const hydrateRankedResults = (rankedProducts) => {
   resultsGrid.innerHTML = rankedProducts
     .map(
-      (product) => `
+      (product) => {
+        const productUrl = product.productUrl || "";
+        const imageUrl = product.imageUrl || "";
+        const matchPct = Math.round((product.score || 0) * 100);
+        const viewLink =
+          productUrl &&
+          `<a href="${escapeAttr(productUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-view-store">View at store</a>`;
+        return `
       <article class="product-card" data-product-id="${product.id}">
         <div class="product-image">
-          <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" />
-          <div class="image-tone">${Math.round((product.score || 0) * 100)}% match</div>
+          ${imageUrl ? `<img src="${escapeAttr(imageUrl)}" alt="${escapeAttr(product.name)}" loading="lazy" />` : ""}
+          <div class="image-tone">${matchPct}% match</div>
         </div>
         <div class="product-meta">
           <div>
-            <h3>${product.name}</h3>
-            <p class="brand">${product.brand}</p>
+            <h3>${escapeAttr(product.name)}</h3>
+            <p class="brand">${escapeAttr(product.brand || "")}</p>
           </div>
           <div class="price">$${Number(product.price).toFixed(2)}</div>
         </div>
-        <button class="btn btn-spark" type="button">Spark</button>
+        <div class="product-actions">
+          ${viewLink || ""}
+          <button class="btn btn-spark" type="button">Spark</button>
+        </div>
       </article>
-    `
+    `;
+      }
     )
     .join("");
 
   resultsGrid.querySelectorAll(".btn-spark").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
       btn.classList.toggle("is-active");
       btn.textContent = btn.classList.contains("is-active") ? "Sparked" : "Spark";
     });
