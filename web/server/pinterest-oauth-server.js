@@ -29,6 +29,8 @@ const CLIENT_SECRET = process.env.PINTEREST_CLIENT_SECRET;
 const REDIRECT_URI = process.env.PINTEREST_REDIRECT_URI;
 const SCOPES = process.env.PINTEREST_SCOPES || "boards:read,pins:read";
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "*";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_EMBED_MODEL = process.env.OPENAI_EMBED_MODEL || "text-embedding-3-small";
 const SUCCESS_REDIRECT =
   process.env.PINTEREST_AUTH_SUCCESS_REDIRECT || "http://localhost:5173/?pinterest_auth=success";
 const ERROR_REDIRECT =
@@ -36,6 +38,9 @@ const ERROR_REDIRECT =
 
 let latestToken = null;
 const pinsCachePath = fileURLToPath(new URL("../data/pins.json", import.meta.url));
+const productsCachePath = fileURLToPath(new URL("../data/products.json", import.meta.url));
+const pinEmbeddingsPath = fileURLToPath(new URL("../data/pin_embeddings.json", import.meta.url));
+const productEmbeddingsPath = fileURLToPath(new URL("../data/product_embeddings.json", import.meta.url));
 
 const json = (res, statusCode, body) => {
   const payload = JSON.stringify(body);
@@ -100,26 +105,265 @@ const parseJsonBody = async (req) => {
   }
 };
 
+const readJsonFile = (filePath, fallbackValue) => {
+  if (!existsSync(filePath)) return fallbackValue;
+  try {
+    return JSON.parse(readFileSync(filePath, "utf8"));
+  } catch {
+    return fallbackValue;
+  }
+};
+
+const writeJsonFile = (filePath, value) => {
+  mkdirSync(fileURLToPath(new URL("../data", import.meta.url)), { recursive: true });
+  writeFileSync(filePath, JSON.stringify(value, null, 2), "utf8");
+};
+
+const cleanText = (value) => {
+  if (typeof value !== "string") return "";
+  let text = value
+    .replace(/[\u0000-\u001F\u007F]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Common mojibake artifacts from bad encodings.
+  text = text
+    .replace(/Â/g, "")
+    .replace(/â€™/g, "'")
+    .replace(/â€œ|â€/g, '"')
+    .replace(/â€“|â€”/g, "-")
+    .replace(/â€¢/g, "-")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!text || text === "-" || text === " ") return "";
+  return text;
+};
+
+const removeUrls = (value) => value.replace(/https?:\/\/\S+/gi, " ");
+
+const normalizeForEmbedding = (value) => {
+  if (!value) return "";
+  return value
+    .replace(/[#*_~`|<>[\]{}()]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const countWords = (value) => {
+  if (!value) return 0;
+  return value.split(/\s+/).filter(Boolean).length;
+};
+
+const hasMeaningfulLetters = (value) => /[A-Za-z]{2,}/.test(value);
+const isMostlyNumeric = (value) => /^[\d\s\-_/.,]+$/.test(value);
+const LOW_SIGNAL_PHRASES = new Set([
+  "new design",
+  "neck design",
+  "sleeves design",
+  "sleeves designs",
+]);
+
+const buildPinEmbeddingText = ({ title, description }) => {
+  const titleClean = normalizeForEmbedding(removeUrls(cleanText(title)));
+  const descClean = normalizeForEmbedding(removeUrls(cleanText(description)));
+
+  const titleWords = countWords(titleClean);
+  const descWords = countWords(descClean);
+  const combined = [titleClean, descClean].filter(Boolean).join(". ").trim();
+  const combinedWords = countWords(combined);
+  const hasLetters = hasMeaningfulLetters(combined);
+  const lowered = combined.toLowerCase();
+  const isLowPhrase = LOW_SIGNAL_PHRASES.has(lowered);
+  const numericOnly = isMostlyNumeric(combined);
+
+  // Reject low-signal text: emoji-only, numeric-only, or too short/noisy fragments.
+  const usableForEmbedding =
+    hasLetters &&
+    !numericOnly &&
+    !isLowPhrase &&
+    (
+      combinedWords >= 3 ||
+      descWords >= 2 ||
+      titleWords >= 2 ||
+      combined.length >= 28
+    );
+
+  return {
+    embeddingText: usableForEmbedding ? combined : "",
+    usableForEmbedding,
+    textQuality: usableForEmbedding ? "usable" : "low_signal",
+  };
+};
+
+const buildProductEmbeddingText = (product) => {
+  const chunks = [
+    cleanText(product?.name || ""),
+    cleanText(product?.brand || ""),
+    cleanText(product?.category || ""),
+    Array.isArray(product?.tags) ? product.tags.map((tag) => cleanText(String(tag))).filter(Boolean).join(" ") : "",
+  ].filter(Boolean);
+
+  return normalizeForEmbedding(chunks.join(". "));
+};
+
+const requireOpenAiConfig = (res) => {
+  if (!OPENAI_API_KEY) {
+    json(res, 500, {
+      error: "Missing OPENAI_API_KEY in .env",
+      required: ["OPENAI_API_KEY"],
+    });
+    return false;
+  }
+  return true;
+};
+
+const getCosineSimilarity = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length || a.length === 0) return 0;
+  let dot = 0;
+  let magA = 0;
+  let magB = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    dot += a[i] * b[i];
+    magA += a[i] * a[i];
+    magB += b[i] * b[i];
+  }
+  if (magA === 0 || magB === 0) return 0;
+  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+};
+
+const getMeanVector = (vectors) => {
+  if (!vectors.length) return [];
+  const length = vectors[0].length;
+  const sum = new Array(length).fill(0);
+  vectors.forEach((vec) => {
+    for (let i = 0; i < length; i += 1) {
+      sum[i] += vec[i];
+    }
+  });
+  return sum.map((value) => value / vectors.length);
+};
+
+const upsertEmbeddingCache = (currentCache, model, records) => {
+  const base = currentCache?.model === model && Array.isArray(currentCache?.items)
+    ? currentCache.items
+    : [];
+  const byId = new Map(base.map((item) => [item.id, item]));
+  records.forEach((record) => {
+    byId.set(record.id, record);
+  });
+  return {
+    model,
+    items: Array.from(byId.values()),
+  };
+};
+
+const fetchEmbeddings = async (texts) => {
+  const response = await fetch("https://api.openai.com/v1/embeddings", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: OPENAI_EMBED_MODEL,
+      input: texts,
+    }),
+  });
+
+  const jsonBody = await response.json();
+  if (!response.ok) {
+    throw new Error(jsonBody?.error?.message || "Embedding request failed");
+  }
+
+  const data = Array.isArray(jsonBody?.data) ? jsonBody.data : [];
+  return data.map((item) => item.embedding);
+};
+
+const ensureEmbeddings = async (entities, cachePath, cacheKey) => {
+  const existing = readJsonFile(cachePath, { model: OPENAI_EMBED_MODEL, items: [] });
+  const existingItems = existing?.model === OPENAI_EMBED_MODEL && Array.isArray(existing?.items)
+    ? existing.items
+    : [];
+  const existingById = new Map(existingItems.map((item) => [item.id, item]));
+
+  const toEmbed = [];
+  const embeddedRecords = [];
+
+  entities.forEach((entity) => {
+    const cached = existingById.get(entity.id);
+    if (cached && cached.text === entity.text && Array.isArray(cached.embedding)) {
+      embeddedRecords.push(cached);
+    } else {
+      toEmbed.push(entity);
+    }
+  });
+
+  const batchSize = 50;
+  for (let i = 0; i < toEmbed.length; i += batchSize) {
+    const batch = toEmbed.slice(i, i + batchSize);
+    const vectors = await fetchEmbeddings(batch.map((entry) => entry.text));
+    vectors.forEach((embedding, idx) => {
+      embeddedRecords.push({
+        id: batch[idx].id,
+        text: batch[idx].text,
+        embedding,
+        updatedAt: Date.now(),
+        key: cacheKey,
+      });
+    });
+  }
+
+  const updatedCache = upsertEmbeddingCache(existing, OPENAI_EMBED_MODEL, embeddedRecords);
+  writeJsonFile(cachePath, updatedCache);
+  return updatedCache.items;
+};
+
+const boostPinterestImageUrl = (url) => {
+  if (typeof url !== "string" || !url) return "";
+  return url.replace("/150x150/", "/736x/");
+};
+
 const getPinImageUrl = (pin) => {
   const direct = pin?.media?.images;
   if (direct && typeof direct === "object") {
     const firstImage = Object.values(direct).find((img) => img && typeof img === "object" && img.url);
-    if (firstImage?.url) return firstImage.url;
+    if (firstImage?.url) return boostPinterestImageUrl(firstImage.url);
   }
   const medias = Array.isArray(pin?.media_list) ? pin.media_list : [];
   for (const mediaItem of medias) {
-    if (mediaItem?.media_type === "image" && mediaItem?.image_url) return mediaItem.image_url;
+    if (mediaItem?.media_type === "image" && mediaItem?.image_url) {
+      return boostPinterestImageUrl(mediaItem.image_url);
+    }
   }
   return "";
 };
 
-const normalizePin = (pin, boardId) => ({
-  pinId: pin?.id || "",
-  title: pin?.title || "",
-  description: pin?.description || "",
-  imageUrl: getPinImageUrl(pin),
-  boardId,
-});
+const normalizePin = (pin, boardId) => {
+  const title = cleanText(pin?.title || pin?.note || "");
+  const altText = cleanText(pin?.alt_text || "");
+  const link = cleanText(pin?.link || "");
+  const description = cleanText(pin?.description || altText || link || "");
+  const embeddingMeta = buildPinEmbeddingText({ title, description });
+  return {
+    pinId: pin?.id || "",
+    title,
+    description,
+    altText,
+    link,
+    imageUrl: getPinImageUrl(pin),
+    boardId,
+    embeddingText: embeddingMeta.embeddingText,
+    usableForEmbedding: embeddingMeta.usableForEmbedding,
+    textQuality: embeddingMeta.textQuality,
+    metadata: {
+      createdAt: pin?.created_at || "",
+      dominantColor: pin?.dominant_color || "",
+      mediaType: pin?.media_type || "",
+      boardSectionId: pin?.board_section_id || "",
+    },
+  };
+};
 
 const fetchBoardPins = async (boardId, limit, accessToken) => {
   const pins = [];
@@ -174,6 +418,7 @@ const server = createServer(async (req, res) => {
         "/api/pinterest/status",
         "/api/pinterest/boards",
         "/api/pinterest/import-board",
+        "/api/ai/rank-products",
       ],
     });
   }
@@ -340,18 +585,116 @@ const server = createServer(async (req, res) => {
       }
 
       const normalizedPins = fetchResult.pins.map((pin) => normalizePin(pin, boardId));
-      mkdirSync(fileURLToPath(new URL("../data", import.meta.url)), { recursive: true });
-      writeFileSync(pinsCachePath, JSON.stringify(normalizedPins, null, 2), "utf8");
+      writeJsonFile(pinsCachePath, normalizedPins);
+      const usableForEmbeddingCount = normalizedPins.filter((pin) => pin.usableForEmbedding).length;
+      const lowSignalCount = normalizedPins.length - usableForEmbeddingCount;
 
       return json(res, 200, {
         boardId,
         importedCount: normalizedPins.length,
+        usableForEmbeddingCount,
+        lowSignalCount,
         cacheFile: "web/data/pins.json",
       });
     } catch (importError) {
       return json(res, 500, {
         error: "Unexpected error while importing board pins.",
         message: importError instanceof Error ? importError.message : "Unknown error",
+      });
+    }
+  }
+
+  if (req.method === "POST" && reqUrl.pathname === "/api/ai/rank-products") {
+    if (!requireOpenAiConfig(res)) return;
+
+    const body = await parseJsonBody(req);
+    if (body === null) {
+      return json(res, 400, { error: "Invalid JSON body." });
+    }
+
+    const boardId = typeof body.boardId === "string" ? body.boardId.trim() : "";
+    if (!boardId) {
+      return json(res, 400, { error: "boardId is required." });
+    }
+
+    const topKRaw = Number(body.topK || 24);
+    const topK = Number.isFinite(topKRaw) ? Math.max(1, Math.min(100, topKRaw)) : 24;
+
+    const pins = readJsonFile(pinsCachePath, []);
+    const products = readJsonFile(productsCachePath, []);
+    if (!Array.isArray(products) || !products.length) {
+      return json(res, 400, { error: "No products found in web/data/products.json." });
+    }
+
+    const candidatePins = (Array.isArray(pins) ? pins : []).filter(
+      (pin) => pin?.boardId === boardId && pin?.usableForEmbedding && typeof pin?.embeddingText === "string" && pin.embeddingText
+    );
+
+    if (!candidatePins.length) {
+      return json(res, 400, {
+        error: "No usable pins found for embedding on this board.",
+        hint: "Try importing another board or enriching pin text fields.",
+      });
+    }
+
+    const pinEntities = candidatePins.map((pin) => ({
+      id: pin.pinId,
+      text: pin.embeddingText,
+    }));
+
+    const productEntities = products
+      .map((product) => ({
+        id: product.id,
+        text: buildProductEmbeddingText(product),
+      }))
+      .filter((entry) => entry.text);
+
+    if (!productEntities.length) {
+      return json(res, 400, { error: "No usable products for embedding." });
+    }
+
+    try {
+      const pinEmbeddingItems = await ensureEmbeddings(pinEntities, pinEmbeddingsPath, "pin");
+      const productEmbeddingItems = await ensureEmbeddings(productEntities, productEmbeddingsPath, "product");
+
+      const pinVectors = pinEntities
+        .map((entry) => pinEmbeddingItems.find((item) => item.id === entry.id))
+        .filter((item) => Array.isArray(item?.embedding))
+        .map((item) => item.embedding);
+
+      if (!pinVectors.length) {
+        return json(res, 500, { error: "No pin embeddings available after embedding step." });
+      }
+
+      const boardVector = getMeanVector(pinVectors);
+      const productById = new Map(products.map((product) => [product.id, product]));
+
+      const ranked = productEntities
+        .map((entry) => {
+          const cached = productEmbeddingItems.find((item) => item.id === entry.id);
+          const product = productById.get(entry.id);
+          if (!cached || !Array.isArray(cached.embedding) || !product) return null;
+          const score = getCosineSimilarity(boardVector, cached.embedding);
+          return {
+            ...product,
+            score,
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, topK);
+
+      return json(res, 200, {
+        boardId,
+        pinsUsed: pinVectors.length,
+        productsRanked: ranked.length,
+        model: OPENAI_EMBED_MODEL,
+        rankedProducts: ranked,
+      });
+    } catch (rankError) {
+      return json(res, 500, {
+        error: "Failed to generate embeddings or rank products.",
+        message: rankError instanceof Error ? rankError.message : "Unknown error",
       });
     }
   }

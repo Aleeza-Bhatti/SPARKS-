@@ -116,6 +116,36 @@ const hydrateResults = () => {
   });
 };
 
+const hydrateRankedResults = (rankedProducts) => {
+  resultsGrid.innerHTML = rankedProducts
+    .map(
+      (product) => `
+      <article class="product-card" data-product-id="${product.id}">
+        <div class="product-image">
+          <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" />
+          <div class="image-tone">${Math.round((product.score || 0) * 100)}% match</div>
+        </div>
+        <div class="product-meta">
+          <div>
+            <h3>${product.name}</h3>
+            <p class="brand">${product.brand}</p>
+          </div>
+          <div class="price">$${Number(product.price).toFixed(2)}</div>
+        </div>
+        <button class="btn btn-spark" type="button">Spark</button>
+      </article>
+    `
+    )
+    .join("");
+
+  resultsGrid.querySelectorAll(".btn-spark").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("is-active");
+      btn.textContent = btn.classList.contains("is-active") ? "Sparked" : "Spark";
+    });
+  });
+};
+
 const runLoadingSequence = () => {
   currentStep = 0;
   const stepItems = Array.from(loadingSteps.querySelectorAll(".step"));
@@ -224,11 +254,34 @@ const importBoardAndContinue = async (boardId, boardName) => {
       throw new Error(reason);
     }
 
+    if ((payload.usableForEmbeddingCount || 0) < 20) {
+      boardListState.textContent = `Imported ${payload.importedCount} pins, but only ${payload.usableForEmbeddingCount} have usable text. Results may be weak.`;
+    }
+
     setLoadingProgress(2);
-    await wait(700);
-    hydrateResults();
+    boardListState.textContent = "Building style matches from imported pins...";
+    const rankResponse = await fetch("/api/ai/rank-products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ boardId, topK: 30 }),
+    });
+    const rankPayload = await rankResponse.json();
+    if (!rankResponse.ok) {
+      const reason =
+        rankPayload?.message ||
+        rankPayload?.error ||
+        `HTTP ${rankResponse.status}`;
+      throw new Error(reason);
+    }
+
+    await wait(500);
+    hydrateRankedResults(rankPayload.rankedProducts || []);
     setScreen("results");
-    console.log(`Imported ${payload.importedCount} pins from board "${boardName}".`);
+    console.log(
+      `Imported ${payload.importedCount} pins from board "${boardName}". Usable: ${payload.usableForEmbeddingCount}, low-signal: ${payload.lowSignalCount}.`
+    );
   } catch (error) {
     setScreen("board");
     boardListState.textContent = `Import failed: ${error instanceof Error ? error.message : "Unknown error"}. Please try another board or reconnect.`;
