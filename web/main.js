@@ -7,6 +7,8 @@ const restartBtn = document.getElementById("restartBtn");
 const reconnectBtn = document.getElementById("reconnectBtn");
 const resultsGrid = document.getElementById("resultsGrid");
 const loadingSteps = document.getElementById("loadingSteps");
+const boardList = document.getElementById("boardList");
+const boardListState = document.getElementById("boardListState");
 
 const products = [
   {
@@ -69,6 +71,7 @@ const products = [
 
 const screenTimers = new Set();
 let currentStep = 0;
+let isImportInProgress = false;
 
 const clearTimers = () => {
   screenTimers.forEach((id) => clearTimeout(id));
@@ -144,7 +147,128 @@ const runLoadingSequence = () => {
   screenTimers.add(intervalId);
 };
 
-const startConnectFlow = () => {
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const setLoadingProgress = (activeStep) => {
+  const stepItems = Array.from(loadingSteps.querySelectorAll(".step"));
+  stepItems.forEach((step, index) => {
+    step.classList.toggle("is-active", index === activeStep);
+    step.classList.toggle("is-complete", index < activeStep);
+  });
+};
+
+const renderBoards = (boards) => {
+  boardList.innerHTML = boards
+    .map(
+      (board) => `
+      <article class="board-item">
+        <div>
+          <h3>${board.name}</h3>
+          <p class="board-meta">${board.pinCount} pins • ${board.privacy}</p>
+        </div>
+        <button class="board-select-btn" data-board-id="${board.id}" data-board-name="${board.name}">
+          Use this board
+        </button>
+      </article>
+    `
+    )
+    .join("");
+
+  boardList.querySelectorAll(".board-select-btn").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (isImportInProgress) return;
+      isImportInProgress = true;
+      button.disabled = true;
+      button.textContent = "Importing...";
+
+      const selectedBoardId = button.dataset.boardId;
+      const boardName = button.dataset.boardName || "Selected board";
+      console.log("Selected board:", selectedBoardId, boardName);
+      await importBoardAndContinue(selectedBoardId, boardName);
+      isImportInProgress = false;
+      button.disabled = false;
+      button.textContent = "Use this board";
+    });
+  });
+};
+
+const importBoardAndContinue = async (boardId, boardName) => {
+  if (!boardId) {
+    boardListState.textContent = "Could not start import: missing board ID.";
+    setScreen("board");
+    return;
+  }
+
+  setScreen("loading");
+  setLoadingProgress(0);
+  await wait(500);
+
+  setLoadingProgress(1);
+  try {
+    const response = await fetch("/api/pinterest/import-board", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ boardId, limit: 120 }),
+    });
+
+    const payload = await response.json();
+    if (!response.ok) {
+      const reason =
+        payload?.details?.message ||
+        payload?.details?.error ||
+        payload?.message ||
+        payload?.error ||
+        `HTTP ${response.status}`;
+      throw new Error(reason);
+    }
+
+    setLoadingProgress(2);
+    await wait(700);
+    hydrateResults();
+    setScreen("results");
+    console.log(`Imported ${payload.importedCount} pins from board "${boardName}".`);
+  } catch (error) {
+    setScreen("board");
+    boardListState.textContent = `Import failed: ${error instanceof Error ? error.message : "Unknown error"}. Please try another board or reconnect.`;
+  }
+};
+
+const loadBoardsForSelection = async () => {
+  setScreen("board");
+  boardList.innerHTML = "";
+  boardListState.textContent = "Loading your boards...";
+
+  try {
+    const response = await fetch(`/api/pinterest/boards?page_size=25`);
+    const payload = await response.json();
+
+    if (!response.ok) {
+      const detailMessage =
+        payload?.details?.message ||
+        payload?.details?.error ||
+        payload?.message ||
+        payload?.error ||
+        `HTTP ${response.status}`;
+      throw new Error(detailMessage);
+    }
+
+    const boards = Array.isArray(payload.boards) ? payload.boards : [];
+    if (!boards.length) {
+      boardListState.textContent = "No boards found for this account.";
+      return;
+    }
+
+    boardListState.textContent = "Select a board to continue:";
+    renderBoards(boards);
+  } catch (error) {
+    boardListState.textContent = `Could not load boards: ${error instanceof Error ? error.message : "Unknown error"}. Try reconnecting Pinterest.`;
+    console.error("Board load failed:", error);
+  }
+};
+
+const startLoadingFlow = () => {
   setScreen("connect");
   const toLoading = setTimeout(() => {
     setScreen("loading");
@@ -153,8 +277,15 @@ const startConnectFlow = () => {
   screenTimers.add(toLoading);
 };
 
-connectBtn.addEventListener("click", startConnectFlow);
-reconnectBtn.addEventListener("click", startConnectFlow);
+const beginPinterestOAuth = () => {
+  setScreen("connect");
+  window.setTimeout(() => {
+    window.location.href = "/auth/pinterest/start";
+  }, 450);
+};
+
+connectBtn.addEventListener("click", beginPinterestOAuth);
+reconnectBtn.addEventListener("click", beginPinterestOAuth);
 
 viewDemoBtn.addEventListener("click", () => {
   hydrateResults();
@@ -166,4 +297,17 @@ restartBtn.addEventListener("click", () => {
 });
 
 hydrateResults();
-setScreen("landing");
+
+const pageParams = new URLSearchParams(window.location.search);
+const authState = pageParams.get("pinterest_auth");
+if (authState === "success") {
+  loadBoardsForSelection();
+  window.history.replaceState({}, "", window.location.pathname);
+} else if (authState === "error") {
+  setScreen("landing");
+  const reason = pageParams.get("reason");
+  console.error("Pinterest auth failed", reason);
+  window.history.replaceState({}, "", window.location.pathname);
+} else {
+  setScreen("landing");
+}

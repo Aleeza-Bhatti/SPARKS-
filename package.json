@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "auth": "node web/server/pinterest-oauth-server.js",
     "build": "vite build",
     "preview": "vite preview"
   },

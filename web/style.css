@@ -407,6 +407,7 @@ body::after {
   height: 142px;
   border-radius: 8px;
   background: linear-gradient(150deg, rgba(255, 172, 133, 0.95), rgba(255, 126, 88, 0.9));
+  overflow: hidden;
   display: grid;
   place-items: center;
   font-family: "Nunito Sans", "Helvetica", sans-serif;
@@ -414,6 +415,13 @@ body::after {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: rgba(77, 25, 12, 0.62);
+}
+
+.collage-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .collage-card p {
@@ -522,6 +530,58 @@ body.landing-screen .product-collage {
 
 .loading-title {
   font-weight: 600;
+}
+
+.board-state {
+  font-family: "Nunito Sans", "Helvetica", sans-serif;
+  color: var(--muted);
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+
+.board-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.board-item {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.board-item h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.board-meta {
+  margin: 5px 0 0;
+  font-family: "Nunito Sans", "Helvetica", sans-serif;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.board-select-btn {
+  white-space: nowrap;
+  padding: 10px 16px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: var(--white);
+  border: none;
+  font-family: "Nunito Sans", "Helvetica", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.board-select-btn:hover {
+  transform: translateY(-1px);
 }
 
 .loading-sub {
@@ -747,5 +807,10 @@ body.landing-screen .product-collage {
 
   .hero {
     gap: 24px;
+  }
+
+  .board-item {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
