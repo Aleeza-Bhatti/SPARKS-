@@ -1,355 +1,222 @@
 [
+    {
+      "id": "prod_001",
+      "name": "Chiffon Ruffle Gown with Tie-Back",
+      "brand": "Mariam Collection",
+      "price": 34.90,
+      "currency": "USD",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTnt5IqnfZW6sz0Pmsu3nGILcHJdP7KUlCl0E2JkT1D2mPgb118LiNEUzhXS4iYwqb0Zf9vC7y1a09csUVyCSD5KeUhrYN0ML25U65nSX9BG08O_92TegJMeRY&usqp=CAc",
+      "productUrl": "https://mariam-col.com/products/chiffon-ruffle-gown-with-tie-back-bell-sleeve-tiered-maxi-dressms227",
+      "category": "dress",
+      "tags": ["chiffon", "gown", "modest", "bell sleeves", "tiered", "maxi dress", "tie-back"]
+    },
+    {
+      "id": "prod_002",
+      "name": "Graded Rose Premium Modal Hijab",
+      "brand": "Aab Collection",
+      "price": 44.00,
+      "currency": "USD",
+      "imageUrl": "https://us.aabcollection.com/cdn/shop/files/Aab_2025_09_26_00221_620x.jpg?v=1759422924",
+      "productUrl": "https://us.aabcollection.com/products/graded-rose-premium-modal-hijab",
+      "category": "hijab",
+      "tags": ["pink", "printed", "modal", "hijab", "premium"]
+    },
+    {
+      "id": "prod_003",
+      "name": "Leya Maxi dress - Taupe",
+      "brand": "Amariah",
+      "price": 59.00,
+      "currency": "USD",
+      "imageUrl": "https://amariah.co/cdn/shop/files/A_00772.jpg?v=1720549057&width=1400",
+      "productUrl": "https://amariah.co/products/leya-maxi-dress-color-taupe",
+      "category": "dress",
+      "tags": ["satin", "taupe", "maxi dress", "modest", "zipper", "puff sleeves", "high neck"]
+    },
+    {
+      "id": "prod_004",
+      "name": "APHRODITE Maxi Dress - Rose",
+      "brand": "Amariah",
+      "price": 119.00,
+      "currency": "USD",
+      "imageUrl": "https://amariah.co/cdn/shop/products/custom_resized_f0101bf8-2f23-4bb3-99da-f621e1544e06.jpg?v=1680021515&width=1200",
+      "productUrl": "https://amariah.co/products/aphrodite-maxi-dress-color-rose",
+      "category": "dress",
+      "tags": ["satin", "rose", "maxi dress", "modest", "zipper", "kimono sleeves", "round neck", "wrap waist"]
+    },
+    {
+      "id": "prod_005",
+      "name": "Arabella Tie Waist Top - Cream",
+      "brand": "Amariah",
+      "price": 24.00,
+      "currency": "USD",
+      "imageUrl": "https://amariah.co/cdn/shop/files/6-6-10412330.jpg?v=1718041686&width=1400",
+      "productUrl": "https://amariah.co/products/arabella-tie-waist-top-color-cream",
+      "category": "top",
+      "tags": ["tunic", "cream", "top", "modest", "zipper", "belt"]
+    },
+    {
+      "id": "prod_006",
+      "name": "Layan Satin Top and Maxi Skirt Set- Teal",
+      "brand": "Zahraa the Label",
+      "price": 25.00,
+      "currency": "USD",
+      "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/2024_0602_ZTLSummerLuxe1193-3_f778ad62-b49a-457e-99d7-17a988a5c66d.jpg?v=1719504840&width=800",
+      "productUrl": "https://www.zahraathelabel.com/products/layan-satin-top-and-maxi-skirt-set-teal",
+      "category": "set",
+      "tags": ["set", "top", "skirt", "modest", "satin", "teal", "tie-front", "long-sleeves", "elastic waistband", "maxi skirt"]
+    },
+     {
+      "id": "prod_007",
+      "name": "Essential Modal Hijab - Charlotte",
+      "brand": "Zahraa the Label",
+      "price": 4.99,
+      "currency": "USD",
+      "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/Zahraa_July24_0734-1_d501dd23-7e6b-4918-977d-652c35d93b69.jpg?v=1727108972&width=1200",
+      "productUrl": "https://www.zahraathelabel.com/products/essential-modal-hijab-charlotte",
+      "category": "hijab",
+      "tags": ["hijab", "modal", "essential", "charlotte", "beige"
+    },
+    {
+      "id": "prod_008",
+      "name": "Hanan Knit Matching Set - Oatmeal",
+      "brand": "Zahraa the Label",
+      "price": 77.40,
+      "currency": "USD",
+      "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/8_2a40bea9-52be-4e77-b337-f27f3f66dd21.png?v=1765425862&width=1200",
+      "productUrl": "https://www.zahraathelabel.com/products/hanan-knit-matching-set-oatmeal",
+      "category": "set",
+      "tags": ["set", "tan", "knit", "round neck", "long sleeves", "elastic waistband"]
+    },
+    {
+      "id": "prod_009",
+      "name": "Forest Modal Hijab",
+      "brand": "Hawaa Clothing",
+      "price": 19.00,
+      "currency": "USD",
+      "imageUrl": "https://us.hawaaclothing.com/cdn/shop/files/WhatsApp_Image_2024-07-16_at_15.48.04_b59bbbf2-f946-4ecd-a244-c4765b7415a7.jpg?v=1746011692&width=1600",
+      "productUrl": "https://us.hawaaclothing.com/collections/modal-hijab/products/forest-modal-hijab",
+      "category": "hijab",
+      "tags": ["hijab", "modal", "forest", "green"]
+    },
+    {
+      "id": "prod_010",
+      "name": "Cranberry Cotton Jersey Hijab",
+      "brand": "Hawaa Clothing",
+      "price": 10.00,
+      "currency": "USD",
+      "imageUrl": "https://us.hawaaclothing.com/cdn/shop/files/cranberry_2561_7107208e-872b-4de0-aace-cdfe41181f35.jpg?v=1761141224&width=1200",
+      "productUrl": "https://us.hawaaclothing.com/collections/cotton-jersey-hijab/products/cranberry-cotton-jersey-hijab",
+      "category": "hijab",
+      "tags": ["hijab", "cotton", "jersey", "cranberry", "red"]
+    },
+    {
+      "id": "prod_011",
+      "name": "Marjan Kimono Abaya Set - Taupe Sand",
+      "brand": "Niswa Fashion",
+      "price": 80.00,
+      "currency": "USD",
+      "imageUrl": "https://www.niswafashion.com/cdn/shop/files/152061708586643_.pic_hd_1.jpg?v=1708863593&width=1500",
+      "productUrl": "https://www.niswafashion.com/collections/sale/products/marjan-kimono-abaya-set-taupe-sand",
+      "category": "abaya set",
+      "tags": ["abaya set", "abaya", "taupe sand", "set", "kimono style"]
+    },
+    {
+      "id": "prod_012",
+      "name": "Amelia Skirt Set",
+      "brand": "Ayna Modest Boutique",
+      "price": 95.20,
+      "currency": "USD",
+      "imageUrl": "https://143255385.cdn6.editmysite.com/uploads/1/4/3/2/143255385/4QAAOXQFVAZY7QFFZS5CNOUM.jpeg?width=2560&optimize=medium",
+      "productUrl": "https://www.aynausa.com/product/amelia-skirt-set/A2VGNJEZ5I4FIXGZBXOFDCN4?cp=true&sa=false&sbp=false&q=false&category_id=8",
+      "category": "skirt set",
+      "tags": ["set", "top", "olive green", "mink", "skirt", "tie-front", "drop waist"]
+    },
+   {
+      "id": "prod_013",
+      "name": "Zahra Top",
+      "brand": "Ayna Modest Boutique",
+      "price": 55.00,
+      "currency": "USD",
+      "imageUrl": "https://143255385.cdn6.editmysite.com/uploads/1/4/3/2/143255385/FCNMFEV5ZSA4PQMHJ5NVSQEA.jpeg?width=2560&optimize=medium",
+      "productUrl": "https://www.aynausa.com/product/zahra-top/338?cp=true&sa=false&sbp=false&q=false&category_id=10",
+      "category": "top",
+      "tags": ["top", "long", "asymmetrical", "white"]
+    },
+   {
+      "id": "prod_014",
+      "name": "Linen Lace-Up Dress in Sage",
+      "brand": "By Hasanat",
+      "price": 109.00,
+      "currency": "USD",
+      "imageUrl": "https://byhasanat.co.uk/cdn/shop/files/IMG_3213.jpg?v=1720788856&width=960",
+      "productUrl": "https://byhasanat.co.uk/products/linen-lace-up-dress-in-sage?variant=48056061460788",
+      "category": "dress",
+      "tags": ["dress", "sage", "lace-up", "corset", "linen", "pockets", "zipper"]
+    },
+   {
+      "id": "prod_015",
+      "name": "Lace Flower Abaya in Butter",
+      "brand": "By Hasanat",
+      "price": 67.00,
+      "currency": "USD",
+      "imageUrl": "https://byhasanat.co.uk/cdn/shop/files/IMG_3378.heic?v=1751154498&width=1440",
+      "productUrl": "https://byhasanat.co.uk/products/lace-flower-abaya-in-butter?variant=55501260718453",
+      "category": "abaya",
+      "tags": ["abaya", "yellow", "butter", "lace", "flower", "open front"]
+    },
+   {
+      "id": "prod_016",
+      "name": "Deep Navy Modal Hijab",
+      "brand": "By Hasanat",
+      "price": 21.00,
+      "currency": "USD",
+      "imageUrl": "https://byhasanat.co.uk/cdn/shop/files/image00013_1bd8f2cc-c7b4-488f-8c1d-fd67aa176982.jpg?v=1763074685&width=1440",
+      "productUrl": "https://byhasanat.co.uk/products/deep-navy-modal-hijab?variant=56336654991733",
+      "category": "hijab",
+      "tags": ["hijab", "modal", "deep navy", "blue"]
+    },
+    {
+      "id": "prod_017",
+      "name": "Ivory Sand Abaya Coat",
+      "brand": "Linaziada",
+      "price": 54.15,
+      "currency": "USD",
+      "imageUrl": "https://linaziada.com/cdn/shop/files/18_97d62acf-8028-4773-9d72-c897bb4d0ff6.png?v=1741491164&width=3000",
+      "productUrl": "https://linaziada.com/products/cream-abaya-coat",
+      "category": "outerwear",
+      "tags": ["coat", "abaya", "ivory", "wool"]
+    },
+    {
+      "id": "prod_018",
+      "name": "Umber Cacao Knit Dress",
+      "brand": "Linaziada",
+      "price": 40.26,
+      "currency": "USD",
+      "imageUrl": "https://linaziada.com/cdn/shop/files/5a3b605b-40b4-497b-bb2f-8e052318df16.jpg?v=1763387239&width=3000",
+      "productUrl": "https://linaziada.com/products/umber-cacao-knit-dress",
+      "category": "dress",
+      "tags": ["dress", "knit", "umber", "cacao", "brown", "ribbed knit"]
+    },
   {
-    "id": "prod_001",
-    "name": "Chiffon Ruffle Gown with Tie-Back",
-    "brand": "Mariam Collection",
-    "price": 34.90,
-    "currency": "USD",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTnt5IqnfZW6sz0Pmsu3nGILcHJdP7KUlCl0E2JkT1D2mPgb118LiNEUzhXS4iYwqb0Zf9vC7y1a09csUVyCSD5KeUhrYN0ML25U65nSX9BG08O_92TegJMeRY&usqp=CAc",
-    "productUrl": "https://mariam-col.com/products/chiffon-ruffle-gown-with-tie-back-bell-sleeve-tiered-maxi-dressms227",
-    "category": "dress",
-    "tags": [
-      "chiffon",
-      "gown",
-      "modest",
-      "bell sleeves",
-      "tiered",
-      "maxi dress",
-      "tie-back"
-    ]
-  },
-  {
-    "id": "prod_002",
-    "name": "Graded Rose Premium Modal Hijab",
-    "brand": "Aab Collection",
-    "price": 44.00,
-    "currency": "USD",
-    "imageUrl": "https://us.aabcollection.com/cdn/shop/files/Aab_2025_09_26_00221_620x.jpg?v=1759422924",
-    "productUrl": "https://us.aabcollection.com/products/graded-rose-premium-modal-hijab",
-    "category": "hijab",
-    "tags": [
-      "pink",
-      "printed",
-      "modal",
-      "hijab",
-      "premium"
-    ]
-  },
-  {
-    "id": "prod_003",
-    "name": "Leya Maxi dress - Taupe",
-    "brand": "Amariah",
-    "price": 59.00,
-    "currency": "USD",
-    "imageUrl": "https://amariah.co/cdn/shop/files/A_00772.jpg?v=1720549057&width=1400",
-    "productUrl": "https://amariah.co/products/leya-maxi-dress-color-taupe",
-    "category": "dress",
-    "tags": [
-      "satin",
-      "taupe",
-      "maxi dress",
-      "modest",
-      "zipper",
-      "puff sleeves",
-      "high neck"
-    ]
-  },
-  {
-    "id": "prod_004",
-    "name": "APHRODITE Maxi Dress - Rose",
-    "brand": "Amariah",
-    "price": 119.00,
-    "currency": "USD",
-    "imageUrl": "https://amariah.co/cdn/shop/products/custom_resized_f0101bf8-2f23-4bb3-99da-f621e1544e06.jpg?v=1680021515&width=1200",
-    "productUrl": "https://amariah.co/products/aphrodite-maxi-dress-color-rose",
-    "category": "dress",
-    "tags": [
-      "satin",
-      "rose",
-      "maxi dress",
-      "modest",
-      "zipper",
-      "kimono sleeves",
-      "round neck",
-      "wrap waist"
-    ]
-  },
-  {
-    "id": "prod_005",
-    "name": "Arabella Tie Waist Top - Cream",
-    "brand": "Amariah",
-    "price": 24.00,
-    "currency": "USD",
-    "imageUrl": "https://amariah.co/cdn/shop/files/6-6-10412330.jpg?v=1718041686&width=1400",
-    "productUrl": "https://amariah.co/products/arabella-tie-waist-top-color-cream",
-    "category": "top",
-    "tags": [
-      "tunic",
-      "cream",
-      "top",
-      "modest",
-      "zipper",
-      "belt"
-    ]
-  },
-  {
-    "id": "prod_006",
-    "name": "Layan Satin Top and Maxi Skirt Set- Teal",
-    "brand": "Zahraa the Label",
-    "price": 25.00,
-    "currency": "USD",
-    "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/2024_0602_ZTLSummerLuxe1193-3_f778ad62-b49a-457e-99d7-17a988a5c66d.jpg?v=1719504840&width=800",
-    "productUrl": "https://www.zahraathelabel.com/products/layan-satin-top-and-maxi-skirt-set-teal",
-    "category": "set",
-    "tags": [
-      "set",
-      "top",
-      "skirt",
-      "modest",
-      "satin",
-      "teal",
-      "tie-front",
-      "long-sleeves",
-      "elastic waistband",
-      "maxi skirt"
-    ]
-  },
-  {
-    "id": "prod_007",
-    "name": "Essential Modal Hijab - Charlotte",
-    "brand": "Zahraa the Label",
-    "price": 4.99,
-    "currency": "USD",
-    "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/Zahraa_July24_0734-1_d501dd23-7e6b-4918-977d-652c35d93b69.jpg?v=1727108972&width=1200",
-    "productUrl": "https://www.zahraathelabel.com/products/essential-modal-hijab-charlotte",
-    "category": "hijab",
-    "tags": [
-      "hijab",
-      "modal",
-      "essential",
-      "charlotte",
-      "beige"
-    ]
-  },
-  {
-    "id": "prod_008",
-    "name": "Hanan Knit Matching Set - Oatmeal",
-    "brand": "Zahraa the Label",
-    "price": 77.40,
-    "currency": "USD",
-    "imageUrl": "https://www.zahraathelabel.com/cdn/shop/files/8_2a40bea9-52be-4e77-b337-f27f3f66dd21.png?v=1765425862&width=1200",
-    "productUrl": "https://www.zahraathelabel.com/products/hanan-knit-matching-set-oatmeal",
-    "category": "set",
-    "tags": [
-      "set",
-      "tan",
-      "knit",
-      "round neck",
-      "long sleeves",
-      "elastic waistband"
-    ]
-  },
-  {
-    "id": "prod_009",
-    "name": "Forest Modal Hijab",
-    "brand": "Hawaa Clothing",
-    "price": 19.00,
-    "currency": "USD",
-    "imageUrl": "https://us.hawaaclothing.com/cdn/shop/files/WhatsApp_Image_2024-07-16_at_15.48.04_b59bbbf2-f946-4ecd-a244-c4765b7415a7.jpg?v=1746011692&width=1600",
-    "productUrl": "https://us.hawaaclothing.com/collections/modal-hijab/products/forest-modal-hijab",
-    "category": "hijab",
-    "tags": [
-      "hijab",
-      "modal",
-      "forest",
-      "green"
-    ]
-  },
-  {
-    "id": "prod_010",
-    "name": "Cranberry Cotton Jersey Hijab",
-    "brand": "Hawaa Clothing",
-    "price": 10.00,
-    "currency": "USD",
-    "imageUrl": "https://us.hawaaclothing.com/cdn/shop/files/cranberry_2561_7107208e-872b-4de0-aace-cdfe41181f35.jpg?v=1761141224&width=1200",
-    "productUrl": "https://us.hawaaclothing.com/collections/cotton-jersey-hijab/products/cranberry-cotton-jersey-hijab",
-    "category": "hijab",
-    "tags": [
-      "hijab",
-      "cotton",
-      "jersey",
-      "cranberry",
-      "red"
-    ]
-  },
-  {
-    "id": "prod_011",
-    "name": "Marjan Kimono Abaya Set - Taupe Sand",
-    "brand": "Niswa Fashion",
-    "price": 80.00,
-    "currency": "USD",
-    "imageUrl": "https://www.niswafashion.com/cdn/shop/files/152061708586643_.pic_hd_1.jpg?v=1708863593&width=1500",
-    "productUrl": "https://www.niswafashion.com/collections/sale/products/marjan-kimono-abaya-set-taupe-sand",
-    "category": "abaya set",
-    "tags": [
-      "abaya set",
-      "abaya",
-      "taupe sand",
-      "set",
-      "kimono style"
-    ]
-  },
-  {
-    "id": "prod_012",
-    "name": "Amelia Skirt Set",
-    "brand": "Ayna Modest Boutique",
-    "price": 95.20,
-    "currency": "USD",
-    "imageUrl": "https://143255385.cdn6.editmysite.com/uploads/1/4/3/2/143255385/4QAAOXQFVAZY7QFFZS5CNOUM.jpeg?width=2560&optimize=medium",
-    "productUrl": "https://www.aynausa.com/product/amelia-skirt-set/A2VGNJEZ5I4FIXGZBXOFDCN4?cp=true&sa=false&sbp=false&q=false&category_id=8",
-    "category": "skirt set",
-    "tags": [
-      "set",
-      "top",
-      "olive green",
-      "mink",
-      "skirt",
-      "tie-front",
-      "drop waist"
-    ]
-  },
-  {
-    "id": "prod_013",
-    "name": "Zahra Top",
-    "brand": "Ayna Modest Boutique",
-    "price": 55.00,
-    "currency": "USD",
-    "imageUrl": "https://143255385.cdn6.editmysite.com/uploads/1/4/3/2/143255385/FCNMFEV5ZSA4PQMHJ5NVSQEA.jpeg?width=2560&optimize=medium",
-    "productUrl": "https://www.aynausa.com/product/zahra-top/338?cp=true&sa=false&sbp=false&q=false&category_id=10",
-    "category": "top",
-    "tags": [
-      "top",
-      "long",
-      "asymmetrical",
-      "white"
-    ]
-  },
-  {
-    "id": "prod_014",
-    "name": "Linen Lace-Up Dress in Sage",
-    "brand": "By Hasanat",
-    "price": 109.00,
-    "currency": "USD",
-    "imageUrl": "https://byhasanat.co.uk/cdn/shop/files/IMG_3213.jpg?v=1720788856&width=960",
-    "productUrl": "https://byhasanat.co.uk/products/linen-lace-up-dress-in-sage?variant=48056061460788",
-    "category": "dress",
-    "tags": [
-      "dress",
-      "sage",
-      "lace-up",
-      "corset",
-      "linen",
-      "pockets",
-      "zipper"
-    ]
-  },
-  {
-    "id": "prod_015",
-    "name": "Lace Flower Abaya in Butter",
-    "brand": "By Hasanat",
-    "price": 67.00,
-    "currency": "USD",
-    "imageUrl": "https://byhasanat.co.uk/cdn/shop/files/IMG_3378.heic?v=1751154498&width=1440",
-    "productUrl": "https://byhasanat.co.uk/products/lace-flower-abaya-in-butter?variant=55501260718453",
-    "category": "abaya",
-    "tags": [
-      "abaya",
-      "yellow",
-      "butter",
-      "lace",
-      "flower",
-      "open front"
-    ]
-  },
-  {
-    "id": "prod_016",
-    "name": "Deep Navy Modal Hijab",
-    "brand": "By Hasanat",
-    "price": 21.00,
-    "currency": "USD",
-    "imageUrl": "https://byhasanat.co.uk/cdn/shop/files/image00013_1bd8f2cc-c7b4-488f-8c1d-fd67aa176982.jpg?v=1763074685&width=1440",
-    "productUrl": "https://byhasanat.co.uk/products/deep-navy-modal-hijab?variant=56336654991733",
-    "category": "hijab",
-    "tags": [
-      "hijab",
-      "modal",
-      "deep navy",
-      "blue"
-    ]
-  },
-  {
-    "id": "prod_017",
-    "name": "Ivory Sand Abaya Coat",
-    "brand": "Linaziada",
-    "price": 54.15,
-    "currency": "USD",
-    "imageUrl": "https://linaziada.com/cdn/shop/files/18_97d62acf-8028-4773-9d72-c897bb4d0ff6.png?v=1741491164&width=3000",
-    "productUrl": "https://linaziada.com/products/cream-abaya-coat",
-    "category": "outerwear",
-    "tags": [
-      "coat",
-      "abaya",
-      "ivory",
-      "wool"
-    ]
-  },
-  {
-    "id": "prod_018",
-    "name": "Umber Cacao Knit Dress",
-    "brand": "Linaziada",
-    "price": 40.26,
-    "currency": "USD",
-    "imageUrl": "https://linaziada.com/cdn/shop/files/5a3b605b-40b4-497b-bb2f-8e052318df16.jpg?v=1763387239&width=3000",
-    "productUrl": "https://linaziada.com/products/umber-cacao-knit-dress",
-    "category": "dress",
-    "tags": [
-      "dress",
-      "knit",
-      "umber",
-      "cacao",
-      "brown",
-      "ribbed knit"
-    ]
-  },
-  {
-    "id": "prod_019",
-    "name": "Nailea Organza Floral Dress- Pink",
-    "brand": "Lameera",
-    "price": 135.00,
-    "currency": "USD",
-    "imageUrl": "https://lameeramoda.com/cdn/shop/files/Layer301.jpg?v=1739547960&width=1200",
-    "productUrl": "https://lameeramoda.com/collections/all-floral-maxi-dresses/products/nailea-organza-floral-dress-pink",
-    "category": "dress",
-    "tags": [
-      "dress",
-      "floral",
-      "pink",
-      "organza"
-    ]
-  },
-  {
-    "id": "prod_020",
-    "name": "Premium Modal Scarf- Denim Blue",
-    "brand": "Lameera",
-    "price": 10.00,
-    "currency": "USD",
-    "imageUrl": "https://lameeramoda.com/cdn/shop/files/7_07116fab-3863-425b-ac49-a3d9eac40924.jpg?v=1754091045&width=1200",
-    "productUrl": "https://lameeramoda.com/collections/modal-hijabs/products/premium-modal-scarf-denim-blue",
-    "category": "hijab",
-    "tags": [
-      "hijab",
-      "modal",
-      "denim blue"
-    ]
-  }
+      "id": "prod_019",
+      "name": "Nailea Organza Floral Dress- Pink",
+      "brand": "Lameera", 
+      "price": 135.00,
+      "currency": "USD",
+      "imageUrl": "https://lameeramoda.com/cdn/shop/files/Layer301.jpg?v=1739547960&width=1200",
+      "productUrl": "https://lameeramoda.com/collections/all-floral-maxi-dresses/products/nailea-organza-floral-dress-pink",
+      "category": "dress",
+      "tags": ["dress", "floral", "pink", "organza"]
+    },
+    {
+      "id": "prod_020",
+      "name": "Premium Modal Scarf- Denim Blue",
+      "brand": "Lameera", 
+      "price": 10.00,
+      "currency": "USD",
+      "imageUrl": "https://lameeramoda.com/cdn/shop/files/7_07116fab-3863-425b-ac49-a3d9eac40924.jpg?v=1754091045&width=1200",
+      "productUrl": "https://lameeramoda.com/collections/modal-hijabs/products/premium-modal-scarf-denim-blue",
+      "category": "hijab",
+      "tags": ["hijab", "modal", "denim blue"]
+    }
 ]
