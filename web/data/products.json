@@ -667,5 +667,104 @@
       "faux leather",
       "zipper"
     ]
-  }
+  }, 
+      {
+      "id": "prod_041",
+      "name": "Leopard Hoodie",
+      "brand": "Heavencanwait",
+      "price": 137.00,
+      "currency": "USD",
+      "imageUrl": "https://heavencanwait.store/cdn/shop/files/Photoroom_001_20260204_101624.png?v=1770200277",
+      "productUrl": "https://heavencanwait.store/products/leopard-hoodie",
+      "category": "top",
+      "tags": ["hoodie", "leopard", "streetwear", "oversized", "comfy", "top"]
+    },
+    {
+      "id": "prod_042",
+      "name": "Waffle Knit Thermal Black",
+      "brand": "Deo Volenti",
+      "price": 62.00,
+      "currency": "USD",
+      "imageUrl": "https://dvolenti.com/cdn/shop/files/DSCF5191.jpg?v=1770517327&width=1800",
+      "productUrl": "https://dvolenti.com/products/waffle-knit-thermal-black?variant=56710868631925",
+      "category": "top",
+      "tags": ["top", "waffle knit", "black", "oversized", "comfy", "streetwear"]
+    },
+    {
+      "id": "prod_043",
+      "name": "VOLENTI PATCHWORK RACER JACKET BROWN",
+      "brand": "Deo Volenti",
+      "price": 227.00,
+      "currency": "USD",
+      "imageUrl": "https://dvolenti.com/cdn/shop/files/patchworkracerjacketfront.png?v=1763760821&width=960",
+      "productUrl": "https://dvolenti.com/products/volenti-patchwork-racer-jacket?variant=56360968552821",
+      "category": "outerwear",
+      "tags": ["outerwear", "patchwork", "racer jacket", "brown", "streetwear", "vegan leather"]
+    },
+   {
+      "id": "prod_044",
+      "name": "ECLIPSE BEANIE",
+      "brand": "Ninety9brand",
+      "price": 25.00,
+      "currency": "USD",
+      "imageUrl": "https://ninety9brand.com/cdn/shop/files/blackbeaniefr.png?v=1768500984&width=1500",
+      "productUrl": "https://ninety9brand.com/products/black-%D9%A9%D9%A9-beanie",
+      "category": "hat",
+      "tags": ["hat", "beanie", "black", "streetwear"]
+    },
+    {
+      "id": "prod_045",
+      "name": "MIDNIGHT NUR ZIP UP",
+      "brand": "Ninety9brand",
+      "price": 75.00,
+      "currency": "USD",
+      "imageUrl": "https://ninety9brand.com/cdn/shop/files/front_zip_be4c8aa2-f54a-4131-a21a-954be14a97e2.png?v=1755973262&width=1500",
+      "productUrl": "https://ninety9brand.com/products/midnight-nur-zip-up",
+      "category": "outerwear",
+      "tags": ["outerwear", "zip up", "black", "streetwear"]
+    },
+    {
+      "id": "prod_046",
+      "name": "NAVY ONE CREATOR",
+      "brand": "Ninety9brand",
+      "price": 65.00,
+      "currency": "USD",
+      "imageUrl": "https://ninety9brand.com/cdn/shop/files/navybackfr_5e15e627-8c27-43c2-8b4a-88cb59560477.png?v=1751131041&width=1500",
+      "productUrl": "https://ninety9brand.com/products/navy-one-creator",
+      "category": "outerwear",
+      "tags": ["outerwear", "zip up", "navy blue", "streetwear"]
+    },
+   {
+      "id": "prod_047",
+      "name": "CHERRY BOMB HEAVYWEIGHT HOODIE",
+      "brand": "Vendetta Archive",
+      "price": 128.00,
+      "currency": "USD",
+      "imageUrl": "https://vendettaarchive.com/cdn/shop/files/16FF00B1-B078-42B0-8A2B-DB029F97DCAB_2048x.jpg?v=1756303909",
+      "productUrl": "https://vendettaarchive.com/collections/end-of-august-drop/products/va-ss25-bl014-cherry-bomb-heavyweight-hoodie",
+      "category": "top",
+      "tags": ["hoodie", "black", "cotton", "streetwear", "oversized"]
+    },
+    {
+      "id": "prod_048",
+      "name": "Stolen from Lahore Studio Sweatshirt",
+      "brand": "Rastah",
+      "price": 93.00,
+      "currency": "USD",
+      "imageUrl": "https://rastah.co/cdn/shop/files/4_1_8f517aa5-8cfb-49cc-a68c-045cc183a591.jpg?v=1763469740",
+      "productUrl": "https://rastah.co/collections/bestsellers/products/stolen-from-lahore-studio-sweatshirt",
+      "category": "top",
+      "tags": ["hoodie", "black", "cotton", "streetwear", "oversized"]
+    },
+  {
+      "id": "prod_049",
+      "name": "KUVRD X FC Palestina Freedom Club Jersey",
+      "brand": "Kuvrd",
+      "price": 92.00,
+      "currency": "USD",
+      "imageUrl": "https://rastah.co/cdn/shop/files/4_1_8f517aa5-8cfb-49cc-a68c-045cc183a591.jpg?v=1763469740",
+      "productUrl": "https://rastah.co/collections/bestsellers/products/stolen-from-lahore-studio-sweatshirt",
+      "category": "top",
+      "tags": ["hoodie", "black", "cotton", "streetwear", "oversized"]
+    }
 ]
