@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:landing": "vite web/landingpage --port 5174",
     "auth": "node web/server/pinterest-oauth-server.js",
     "build": "vite build",
+    "build:landing": "vite build web/landingpage --outDir ../../dist-landing --emptyOutDir",
     "preview": "vite preview"
   },
   "devDependencies": {

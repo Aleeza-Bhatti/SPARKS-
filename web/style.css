@@ -760,6 +760,47 @@ body.landing-screen .product-collage {
   color: var(--muted);
 }
 
+.why-match {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.match-chip {
+  font-family: "Nunito Sans", "Helvetica", sans-serif;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 111, 61, 0.14);
+  color: #7c321d;
+}
+
+.match-confidence {
+  font-family: "Nunito Sans", "Helvetica", sans-serif;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(120, 120, 120, 0.18);
+  color: #4f4f4f;
+}
+
+.match-confidence.high {
+  background: rgba(44, 153, 99, 0.18);
+  color: #176c43;
+}
+
+.match-confidence.medium {
+  background: rgba(220, 150, 44, 0.2);
+  color: #805409;
+}
+
+.match-confidence.low,
+.match-confidence.very_low {
+  background: rgba(171, 96, 70, 0.2);
+  color: #71331f;
+}
+
 .price {
   font-weight: 600;
   font-size: 16px;

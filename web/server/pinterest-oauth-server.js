@@ -207,6 +207,58 @@ const buildProductEmbeddingText = (product) => {
   return normalizeForEmbedding(chunks.join(". "));
 };
 
+const STOPWORDS = new Set([
+  "the", "and", "for", "with", "from", "this", "that", "your", "you", "our", "are", "was", "were", "have", "has",
+  "will", "into", "just", "over", "under", "more", "less", "very", "also", "all", "any", "can", "made", "wear",
+  "item", "overview", "new", "design", "dress", "set", "top", "skirt", "hijab", "abaya",
+]);
+
+const tokenizeText = (value) => {
+  if (!value) return [];
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .map((token) => token.trim())
+    .filter((token) => token.length >= 3 && !STOPWORDS.has(token) && !/^\d+$/.test(token));
+};
+
+const extractBoardKeywords = (pins, maxKeywords = 20) => {
+  const freq = new Map();
+  pins.forEach((pin) => {
+    tokenizeText(pin.embeddingText || "").forEach((token) => {
+      freq.set(token, (freq.get(token) || 0) + 1);
+    });
+  });
+  return Array.from(freq.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, maxKeywords)
+    .map(([token]) => token);
+};
+
+const buildReasonChips = (product, boardKeywords) => {
+  const pool = [
+    ...(Array.isArray(product.tags) ? product.tags : []),
+    product.category || "",
+    product.name || "",
+  ]
+    .map((entry) => cleanText(String(entry)))
+    .join(" ");
+
+  const productTokens = new Set(tokenizeText(pool));
+  const overlap = boardKeywords.filter((token) => productTokens.has(token)).slice(0, 3);
+  if (overlap.length) return overlap;
+  const fallbackTags = Array.isArray(product.tags) ? product.tags.slice(0, 2).map((t) => cleanText(String(t)).toLowerCase()) : [];
+  return fallbackTags.filter(Boolean);
+};
+
+const confidenceFromScore = (score) => {
+  if (score >= 0.35) return "high";
+  if (score >= 0.28) return "medium";
+  if (score >= 0.22) return "low";
+  return "very_low";
+};
+
 const requireOpenAiConfig = (res) => {
   if (!OPENAI_API_KEY) {
     json(res, 500, {
@@ -667,9 +719,10 @@ const server = createServer(async (req, res) => {
       }
 
       const boardVector = getMeanVector(pinVectors);
+      const boardKeywords = extractBoardKeywords(candidatePins);
       const productById = new Map(products.map((product) => [product.id, product]));
 
-      const ranked = productEntities
+      const rawRanked = productEntities
         .map((entry) => {
           const cached = productEmbeddingItems.find((item) => item.id === entry.id);
           const product = productById.get(entry.id);
@@ -677,11 +730,24 @@ const server = createServer(async (req, res) => {
           const score = getCosineSimilarity(boardVector, cached.embedding);
           return {
             ...product,
-            score,
+            rawScore: score,
+            confidence: confidenceFromScore(score),
+            reasonChips: buildReasonChips(product, boardKeywords),
           };
         })
         .filter(Boolean)
-        .sort((a, b) => b.score - a.score)
+        .sort((a, b) => b.rawScore - a.rawScore);
+
+      const maxScore = rawRanked[0]?.rawScore ?? 0;
+      const minScore = rawRanked[rawRanked.length - 1]?.rawScore ?? 0;
+      const range = maxScore - minScore || 1;
+
+      const ranked = rawRanked
+        .map((product) => ({
+          ...product,
+          score: product.rawScore,
+          matchPercent: Math.max(1, Math.min(99, Math.round(((product.rawScore - minScore) / range) * 100))),
+        }))
         .slice(0, topK);
 
       return json(res, 200, {
@@ -689,6 +755,7 @@ const server = createServer(async (req, res) => {
         pinsUsed: pinVectors.length,
         productsRanked: ranked.length,
         model: OPENAI_EMBED_MODEL,
+        boardKeywords: boardKeywords.slice(0, 12),
         rankedProducts: ranked,
       });
     } catch (rankError) {

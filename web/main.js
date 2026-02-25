@@ -124,7 +124,9 @@ const hydrateRankedResults = (rankedProducts) => {
       (product) => {
         const productUrl = product.productUrl || "";
         const imageUrl = product.imageUrl || "";
-        const matchPct = Math.round((product.score || 0) * 100);
+        const matchPct = Number.isFinite(product.matchPercent) ? product.matchPercent : Math.round((product.score || 0) * 100);
+        const confidenceLabel = (product.confidence || "low").replace("_", " ");
+        const chips = Array.isArray(product.reasonChips) ? product.reasonChips.slice(0, 3) : [];
         const viewLink =
           productUrl &&
           `<a href="${escapeAttr(productUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-view-store">View at store</a>`;
@@ -138,6 +140,10 @@ const hydrateRankedResults = (rankedProducts) => {
           <div>
             <h3>${escapeAttr(product.name)}</h3>
             <p class="brand">${escapeAttr(product.brand || "")}</p>
+            <div class="why-match">
+              ${chips.map((chip) => `<span class="match-chip">${escapeAttr(chip)}</span>`).join("")}
+              <span class="match-confidence ${escapeAttr(product.confidence || "low")}">${escapeAttr(confidenceLabel)} confidence</span>
+            </div>
           </div>
           <div class="price">$${Number(product.price).toFixed(2)}</div>
         </div>
