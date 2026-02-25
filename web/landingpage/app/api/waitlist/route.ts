@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     await storeWaitlistEntry(payload);
 
-    return NextResponse.json({ message: "Saved." }, { status: 200 });
+    return NextResponse.json({ message: "You're officially on the Sparks waitlist." }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       {

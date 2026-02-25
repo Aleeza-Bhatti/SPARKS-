@@ -1,5 +1,5 @@
 ﻿import type { Metadata } from "next";
-import { Cormorant_Garamond, Fraunces, Sora, Urbanist } from "next/font/google";
+import { Barlow_Condensed, Cormorant_Garamond, Fraunces, Urbanist } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
@@ -21,10 +21,10 @@ const body = Urbanist({
   weight: ["400", "500", "600", "700"],
 });
 
-const detail = Sora({
+const detail = Barlow_Condensed({
   subsets: ["latin"],
   variable: "--font-detail",
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

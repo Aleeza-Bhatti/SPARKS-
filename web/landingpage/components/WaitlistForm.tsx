@@ -17,6 +17,8 @@ function normalizePhone(phone: string) {
 export function WaitlistForm({ source }: WaitlistFormProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [submittedPhone, setSubmittedPhone] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [message, setMessage] = useState("");
   const [shareCopied, setShareCopied] = useState(false);
@@ -63,7 +65,9 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
       }
 
       setStatus("success");
-      setMessage("You\u2019re in, welcome to Sparks.");
+      setMessage(payload.message || "You're in, welcome to Sparks.");
+      setSubmittedEmail(trimmedEmail);
+      setSubmittedPhone(normalizedPhone);
       setEmail("");
       setPhone("");
       setShareCopied(false);
@@ -83,7 +87,7 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
   }
 
   return (
-    <div className="waitlist-form-shell">
+    <div className={`waitlist-form-shell ${source === "final" ? "waitlist-form-shell-final" : ""}`.trim()}>
       <form id={formId} className="waitlist-form" onSubmit={onSubmit} noValidate>
         <label htmlFor={`${formId}-email`}>Email</label>
         <input
@@ -129,9 +133,22 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
       </p>
 
       {status === "success" ? (
-        <button type="button" className="share-button" onClick={onShare}>
-          {shareCopied ? "Link copied" : "Share Sparks"}
-        </button>
+        <>
+          <div className="success-card" role="status" aria-live="polite">
+            <p className="success-title">Added to waitlist</p>
+            <p className="success-detail">Email: {submittedEmail}</p>
+            <p className="success-detail">Phone: {submittedPhone}</p>
+          </div>
+          <div className="success-burst" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <button type="button" className="share-button" onClick={onShare}>
+            {shareCopied ? "Link copied" : "Share Sparks"}
+          </button>
+        </>
       ) : null}
     </div>
   );

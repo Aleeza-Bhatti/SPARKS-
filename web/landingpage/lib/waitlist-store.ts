@@ -57,6 +57,10 @@ export async function storeWaitlistEntry(entry: WaitlistSubmission) {
     return { provider: "supabase" as const };
   }
 
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Waitlist storage is not configured for production. Set SUPABASE_URL and SUPABASE_ANON_KEY.");
+  }
+
   await saveToLocalFile(entry);
   return { provider: "local" as const };
 }
