@@ -95,14 +95,17 @@ const hydrateResults = () => {
         <div class="product-image">
           <div class="image-tone">${product.tone}</div>
         </div>
-        <div class="product-meta">
-          <div>
-            <h3>${product.name}</h3>
-            <p class="brand">${product.brand}</p>
+        <div class="product-copy">
+          <p class="brand">${product.brand}</p>
+          <div class="product-heading">
+            <h3 class="product-title">${product.name}</h3>
+            <div class="price">${product.price}</div>
           </div>
-          <div class="price">${product.price}</div>
         </div>
-        <button class="btn btn-spark" type="button">Spark</button>
+        <div class="product-actions">
+          <button class="btn btn-view-store" type="button">Buy Now</button>
+          <button class="btn btn-spark" type="button">Save</button>
+        </div>
       </article>
     `
     )
@@ -111,7 +114,7 @@ const hydrateResults = () => {
   resultsGrid.querySelectorAll(".btn-spark").forEach((btn) => {
     btn.addEventListener("click", () => {
       btn.classList.toggle("is-active");
-      btn.textContent = btn.classList.contains("is-active") ? "Sparked" : "Spark";
+      btn.textContent = btn.classList.contains("is-active") ? "Saved" : "Save";
     });
   });
 };
@@ -129,27 +132,27 @@ const hydrateRankedResults = (rankedProducts) => {
         const chips = Array.isArray(product.reasonChips) ? product.reasonChips.slice(0, 3) : [];
         const viewLink =
           productUrl &&
-          `<a href="${escapeAttr(productUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-view-store">View at store</a>`;
+          `<a href="${escapeAttr(productUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-view-store">Buy Now</a>`;
         return `
       <article class="product-card" data-product-id="${product.id}">
         <div class="product-image">
           ${imageUrl ? `<img src="${escapeAttr(imageUrl)}" alt="${escapeAttr(product.name)}" loading="lazy" />` : ""}
           <div class="image-tone">${matchPct}% match</div>
         </div>
-        <div class="product-meta">
-          <div>
-            <h3>${escapeAttr(product.name)}</h3>
-            <p class="brand">${escapeAttr(product.brand || "")}</p>
-            <div class="why-match">
-              ${chips.map((chip) => `<span class="match-chip">${escapeAttr(chip)}</span>`).join("")}
-              <span class="match-confidence ${escapeAttr(product.confidence || "low")}">${escapeAttr(confidenceLabel)} confidence</span>
-            </div>
+        <div class="product-copy">
+          <p class="brand">${escapeAttr(product.brand || "")}</p>
+          <div class="product-heading">
+            <h3 class="product-title">${escapeAttr(product.name)}</h3>
+            <div class="price">$${Number(product.price).toFixed(2)}</div>
           </div>
-          <div class="price">$${Number(product.price).toFixed(2)}</div>
+          <div class="why-match">
+            ${chips.map((chip) => `<span class="match-chip">${escapeAttr(chip)}</span>`).join("")}
+            <span class="match-confidence ${escapeAttr(product.confidence || "low")}">${escapeAttr(confidenceLabel)} confidence</span>
+          </div>
         </div>
         <div class="product-actions">
           ${viewLink || ""}
-          <button class="btn btn-spark" type="button">Spark</button>
+          <button class="btn btn-spark" type="button">Save</button>
         </div>
       </article>
     `;
@@ -161,7 +164,7 @@ const hydrateRankedResults = (rankedProducts) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       btn.classList.toggle("is-active");
-      btn.textContent = btn.classList.contains("is-active") ? "Sparked" : "Spark";
+      btn.textContent = btn.classList.contains("is-active") ? "Saved" : "Save";
     });
   });
 };

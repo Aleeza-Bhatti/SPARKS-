@@ -11,11 +11,17 @@
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <div class="logo">
-        <span class="logo-mark" aria-hidden="true">*</span>
-        <span class="logo-text">Sparks</span>
+      <div class="topbar-actions">
+        <button class="btn btn-back-link" id="restartBtn">Back</button>
+        <button class="btn btn-pinterest-link" id="reconnectBtn">
+          <span class="pinterest-icon" aria-hidden="true"></span>
+          <span>Connect another board</span>
+        </button>
       </div>
-      <div class="topbar-note">Pinterest-based product discovery</div>
+      <div class="logo">
+        <span class="logo-text">sparks</span>
+        <span class="logo-tagline">modest clothing curated for you</span>
+      </div>
     </header>
 
     <main class="screen-stage" id="screenStage">
@@ -197,16 +203,7 @@
       </section>
 
       <section class="screen screen-results" data-screen="results">
-        <div class="results-header">
-          <div>
-            <p class="eyebrow">Curated for your board</p>
-            <h2>Your sparks are here</h2>
-          </div>
-          <div class="results-actions">
-            <button class="btn btn-ghost" id="restartBtn">Restart</button>
-            <button class="btn btn-primary" id="reconnectBtn">Connect Another Board</button>
-          </div>
-        </div>
+        <div class="results-header"></div>
 
         <div class="results-grid" id="resultsGrid"></div>
       </section>
