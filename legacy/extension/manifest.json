@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Sparks Demo",
+    "version": "0.1.0",
+    "description": "Demo: Sparks overlay while shopping online.",
+    "permissions": [],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "css": [
+                "sparks.css"
+            ]
+        }
+    ],
+    "icons": {
+        "16": "icons/sparksIcon16.png",
+        "48": "icons/sparksIcon48.png",
+        "128": "icons/sparksIcon128.png"
+    }
+}

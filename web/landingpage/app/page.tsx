@@ -1,5 +1,8 @@
-﻿import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 
-export default function HomePage() {
-  redirect("/waitlist");
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  redirect(user ? "/feed" : "/waitlist");
 }

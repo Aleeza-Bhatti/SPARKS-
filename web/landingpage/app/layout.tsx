@@ -28,9 +28,8 @@ const detail = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  title: "Sparks Waitlist",
-  description:
-    "Join the Sparks waitlist for early access to premium modest fashion discovery curated to your style.",
+  title: "Sparks",
+  description: "Modest fashion discovery, curated to your style.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

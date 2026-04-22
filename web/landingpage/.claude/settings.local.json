@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(grep -r \"console\\\\\\\\.log\\\\|console\\\\\\\\.error\\\\|console\\\\\\\\.warn\" /c/sparks/SPARKS-/web/landingpage/app /c/sparks/SPARKS-/web/landingpage/lib --include=\"*.ts\" --include=\"*.tsx\" -n)",
+      "Bash(git check-ignore *)"
+    ]
+  }
+}

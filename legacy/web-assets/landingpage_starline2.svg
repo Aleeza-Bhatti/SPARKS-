@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="150" viewBox="0 0 1024 150" fill="none">
+  <defs>
+    <!-- Slight line shine -->
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D9D2C8" stop-opacity="0.95"></stop>
+      <stop offset="45%" stop-color="#B8AFA3" stop-opacity="0.95"></stop>
+      <stop offset="100%" stop-color="#7A644D" stop-opacity="0.95"></stop>
+    </linearGradient>
+
+    <!-- Star gradient (a bit richer) -->
+    <linearGradient id="starGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C7B08A"></stop>
+      <stop offset="55%" stop-color="#9B7A53"></stop>
+      <stop offset="100%" stop-color="#6E5234"></stop>
+    </linearGradient>
+
+    <!-- Soft star glow -->
+    <filter id="starGlow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.2" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background transparent -->
+  <rect width="1024" height="150" fill="none"></rect>
+
+  <!-- Line (two layers for crispness) -->
+  <g opacity="0.98">
+    <!-- main body -->
+    <rect x="58" y="71" width="845" height="8" rx="4" fill="url(#lineGrad)"></rect>
+    <!-- subtle top highlight -->
+    <rect x="58" y="71" width="845" height="2" rx="1" fill="#E9E4DC" opacity="0.75"></rect>
+  </g>
+
+  <!-- Star on the right -->
+  <g filter="url(#starGlow)">
+    <path d="M938 36
+         L952.6 62.1
+         L981.8 67.7
+         L961.4 88.6
+         L965.1 117.8
+         L938 105.4
+         L910.9 117.8
+         L914.6 88.6
+         L894.2 67.7
+         L923.4 62.1
+         Z" fill="url(#starGrad)" stroke="#5F462D" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"></path>
+    <!-- tiny inner highlight -->
+    <path d="M938 46
+         L949.2 66.2
+         L971.8 70.6
+         L956.4 86.6
+         L959.2 109.2
+         L938 99.6
+         L916.8 109.2
+         L919.6 86.6
+         L904.2 70.6
+         L926.8 66.2
+         Z" fill="#E7DCCB" opacity="0.18"></path>
+  </g>
+</svg>
