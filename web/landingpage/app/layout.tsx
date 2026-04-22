@@ -1,6 +1,7 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Barlow_Condensed, Cormorant_Garamond, Fraunces, Urbanist } from "next/font/google";
 import type { ReactNode } from "react";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const heading = Cormorant_Garamond({
@@ -12,7 +13,7 @@ const heading = Cormorant_Garamond({
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const body = Urbanist({
@@ -35,7 +36,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${heading.variable} ${display.variable} ${body.variable} ${detail.variable}`}>{children}</body>
+      <body className={`${heading.variable} ${display.variable} ${body.variable} ${detail.variable}`}>
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+          <div style={{ flex: 1 }}>{children}</div>
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }

@@ -38,125 +38,95 @@ export default async function ProfilePage() {
     : null;
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", background: "#FEF7F0" }}>
       <Nav />
-      <main style={{ maxWidth: "640px", margin: "0 auto", padding: "3rem 1.5rem 5rem" }}>
+      <main className="page-main">
 
         {/* Header */}
-        <div style={{ marginBottom: "2.5rem" }}>
-          <p style={{ color: "#888", fontSize: "0.85rem", marginBottom: "0.25rem" }}>{user.email}</p>
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "2rem" }}>{displayName}</h1>
+        <div style={{ marginBottom: "3.5rem" }}>
+          <p style={{ color: "rgba(102, 12, 13, 0.45)", fontSize: "1.1rem", marginBottom: "0.4rem" }}>
+            {user.email}
+          </p>
+          <h1 style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)",
+            fontWeight: 500,
+            color: "#660C0D",
+            letterSpacing: "-0.02em",
+            lineHeight: 1,
+          }}>
+            {displayName}
+          </h1>
         </div>
 
-        {/* Style profile section */}
-        <section style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-            <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.2rem" }}>Your style</h2>
+        {/* Style section */}
+        <section style={{ marginBottom: "3rem", paddingBottom: "3rem", borderBottom: "1px solid rgba(102, 12, 13, 0.1)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 500, color: "#660C0D" }}>
+              Your style
+            </h2>
             {updatedAt && (
-              <span style={{ fontSize: "0.8rem", color: "#aaa" }}>Updated {updatedAt}</span>
+              <span style={{ fontSize: "1rem", color: "rgba(102, 12, 13, 0.35)" }}>Updated {updatedAt}</span>
             )}
           </div>
 
           {profile?.aesthetics?.length ? (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1rem" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", marginBottom: profile?.raw_text_dump ? "1.25rem" : 0 }}>
               {(profile.aesthetics as string[]).map((a) => (
-                <span
-                  key={a}
-                  style={{
-                    padding: "0.35rem 0.85rem",
-                    background: "#f0f0f0",
-                    borderRadius: "999px",
-                    fontSize: "0.85rem",
-                    fontWeight: 500,
-                    color: "#333",
-                  }}
-                >
+                <span key={a} style={{
+                  padding: "0.45rem 1.1rem",
+                  background: "rgba(102, 12, 13, 0.07)",
+                  borderRadius: "999px",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                  color: "#660C0D",
+                }}>
                   {AESTHETIC_LABELS[a] ?? a}
                 </span>
               ))}
             </div>
           ) : (
-            <p style={{ color: "#888", fontSize: "0.9rem", marginBottom: "1rem" }}>
-              No style profile yet.
-            </p>
+            <p style={{ color: "rgba(102, 12, 13, 0.45)", fontSize: "1.1rem" }}>No style profile yet.</p>
           )}
 
           {profile?.raw_text_dump && (
-            <p style={{ color: "#666", fontSize: "0.9rem", lineHeight: 1.6, fontStyle: "italic" }}>
+            <p style={{ color: "rgba(102, 12, 13, 0.6)", fontSize: "1.1rem", lineHeight: 1.6, fontStyle: "italic" }}>
               "{profile.raw_text_dump}"
             </p>
           )}
         </section>
 
         {/* Actions */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "2.5rem" }}>
-          <Link
-            href="/quiz"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "1rem 1.25rem",
-              border: "1px solid #e0e0e0",
-              borderRadius: "12px",
-              textDecoration: "none",
-              color: "#111",
-              background: "#fff",
-            }}
-          >
-            <div>
-              <p style={{ fontWeight: 600, marginBottom: "0.15rem" }}>Redo style quiz</p>
-              <p style={{ fontSize: "0.85rem", color: "#888" }}>Update your aesthetic preferences</p>
-            </div>
-            <span style={{ color: "#bbb" }}>→</span>
-          </Link>
-
-          <Link
-            href="/favorites"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "1rem 1.25rem",
-              border: "1px solid #e0e0e0",
-              borderRadius: "12px",
-              textDecoration: "none",
-              color: "#111",
-              background: "#fff",
-            }}
-          >
-            <div>
-              <p style={{ fontWeight: 600, marginBottom: "0.15rem" }}>Saved items</p>
-              <p style={{ fontSize: "0.85rem", color: "#888" }}>
-                {favCount ? `${favCount} saved product${favCount === 1 ? "" : "s"}` : "Nothing saved yet"}
-              </p>
-            </div>
-            <span style={{ color: "#bbb" }}>→</span>
-          </Link>
-
-          <Link
-            href="/api/pinterest/auth"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "1rem 1.25rem",
-              border: "1px solid #e0e0e0",
-              borderRadius: "12px",
-              textDecoration: "none",
-              color: "#111",
-              background: "#fff",
-            }}
-          >
-            <div>
-              <p style={{ fontWeight: 600, marginBottom: "0.15rem" }}>Connect Pinterest</p>
-              <p style={{ fontSize: "0.85rem", color: "#888" }}>Import a board to refine your feed</p>
-            </div>
-            <span style={{ color: "#bbb" }}>→</span>
-          </Link>
-        </div>
+        <section>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 500, color: "#660C0D", marginBottom: "0.5rem" }}>
+            Settings
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {[
+              { href: "/quiz", title: "Redo style quiz", subtitle: "Update your aesthetic preferences" },
+              { href: "/favorites", title: "Saved items", subtitle: favCount ? `${favCount} saved product${favCount === 1 ? "" : "s"}` : "Nothing saved yet" },
+              { href: "/api/pinterest/auth", title: "Connect Pinterest", subtitle: "Import a board to refine your feed" },
+            ].map(({ href, title, subtitle }, i, arr) => (
+              <Link key={href} href={href} style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "1.4rem 0",
+                borderBottom: i < arr.length - 1 ? "1px solid rgba(102, 12, 13, 0.08)" : "none",
+                textDecoration: "none",
+                color: "#660C0D",
+              }}>
+                <div>
+                  <p style={{ fontWeight: 600, marginBottom: "0.2rem", fontSize: "1.2rem" }}>{title}</p>
+                  <p style={{ fontSize: "1rem", color: "rgba(102, 12, 13, 0.5)" }}>{subtitle}</p>
+                </div>
+                <span style={{ color: "rgba(102, 12, 13, 0.3)", fontSize: "1.4rem" }}>→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
       </main>
-    </>
+    </div>
   );
 }
