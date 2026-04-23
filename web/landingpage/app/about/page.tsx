@@ -54,7 +54,6 @@ export default function AboutPage() {
           >
             <h2 style={{
               fontFamily: "var(--font-display)",
-              fontSize: "2.2rem",
               fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)",
               fontWeight: 500,
               color: "#660C0D",
