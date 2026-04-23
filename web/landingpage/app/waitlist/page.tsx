@@ -58,7 +58,7 @@ export default function WaitlistPage() {
             <p className="domain-chip">shopsparks.co</p>
           </div>
           <div className="brand-lockup">
-            <p className="brand-word">sparks</p>
+            <img src="/sparks-logo.png" alt="Sparks" style={{ height: "clamp(44px, 6vw, 72px)", width: "auto", display: "block" }} />
           </div>
           <h1>
             <span>Find Modest Fashion</span>

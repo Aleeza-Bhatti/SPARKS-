@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Cormorant_Garamond, Fraunces, Urbanist } from "next/font/google";
 import type { ReactNode } from "react";
-import Footer from "@/components/Footer";
+import ConditionalFooter from "@/components/ConditionalFooter";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={`${heading.variable} ${display.variable} ${body.variable} ${detail.variable}`}>
         <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
           <div style={{ flex: 1 }}>{children}</div>
-          <Footer />
+          <ConditionalFooter />
         </div>
         <Analytics />
       </body>
