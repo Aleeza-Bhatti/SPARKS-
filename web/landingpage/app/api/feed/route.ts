@@ -109,11 +109,14 @@ export async function GET() {
   }
 
   // Try Supabase products first, fall back to static JSON if empty
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+
   const { data: dbProducts } = await supabase
     .from("products")
     .select("id, title, brand, price, image_url, product_url, embedding")
     .eq("modesty_verified", true)
     .eq("in_stock", true)
+    .gte("last_verified_at", thirtyDaysAgo)
     .limit(500);
 
   let scored: { id: string; name: string; brand: string; price: number; imageUrl: string; productUrl: string; category?: string; rawScore: number; confidence: string }[] = [];

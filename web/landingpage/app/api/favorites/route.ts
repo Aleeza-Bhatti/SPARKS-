@@ -10,6 +10,20 @@ interface ProductSnapshot {
   productUrl: string;
 }
 
+function validateProductSnapshot(data: unknown): ProductSnapshot | null {
+  if (!data || typeof data !== "object") return null;
+  const d = data as Record<string, unknown>;
+  if (
+    typeof d.id !== "string" || d.id.length > 200 ||
+    typeof d.name !== "string" || d.name.length > 300 ||
+    typeof d.brand !== "string" || d.brand.length > 100 ||
+    typeof d.price !== "number" || d.price < 0 || d.price > 100000 ||
+    typeof d.imageUrl !== "string" || !d.imageUrl.startsWith("https://") || d.imageUrl.length > 500 ||
+    typeof d.productUrl !== "string" || !d.productUrl.startsWith("https://") || d.productUrl.length > 500
+  ) return null;
+  return { id: d.id, name: d.name, brand: d.brand, price: d.price, imageUrl: d.imageUrl, productUrl: d.productUrl };
+}
+
 export async function GET() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -37,10 +51,13 @@ export async function POST(req: NextRequest) {
   }
 
   const productId = typeof body.productId === "string" ? body.productId.trim() : "";
-  if (!productId) return NextResponse.json({ error: "productId is required", code: "BAD_REQUEST" }, { status: 400 });
+  if (!productId || productId.length > 200) return NextResponse.json({ error: "productId is required", code: "BAD_REQUEST" }, { status: 400 });
+
+  const productData = validateProductSnapshot(body.productData);
+  if (!productData) return NextResponse.json({ error: "Invalid product data", code: "BAD_REQUEST" }, { status: 400 });
 
   const { error } = await supabase.from("favorites").upsert(
-    { user_id: user.id, product_id: productId, product_data: body.productData as ProductSnapshot },
+    { user_id: user.id, product_id: productId, product_data: productData },
     { onConflict: "user_id,product_id", ignoreDuplicates: true }
   );
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { normalizePin, NormalizedPin } from "@/lib/pinterest";
+import { createClient } from "@/lib/supabase/server";
 
 async function fetchBoardPins(
   boardId: string,
@@ -31,6 +32,10 @@ async function fetchBoardPins(
 }
 
 export async function POST(req: NextRequest) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
+
   const accessToken = req.cookies.get("pinterest_access_token")?.value;
   if (!accessToken) {
     return NextResponse.json(

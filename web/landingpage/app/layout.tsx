@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow_Condensed, Cormorant_Garamond, Fraunces, Urbanist } from "next/font/google";
 import type { ReactNode } from "react";
 import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const heading = Cormorant_Garamond({
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div style={{ flex: 1 }}>{children}</div>
           <Footer />
         </div>
+        <Analytics />
       </body>
     </html>
   );
