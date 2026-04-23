@@ -102,17 +102,16 @@ export default async function ProfilePage() {
             Settings
           </h2>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {[
+            {([
               { href: "/quiz", title: "Redo style quiz", subtitle: "Update your aesthetic preferences" },
               { href: "/favorites", title: "Saved items", subtitle: favCount ? `${favCount} saved product${favCount === 1 ? "" : "s"}` : "Nothing saved yet" },
-              { href: "/api/pinterest/auth", title: "Connect Pinterest", subtitle: "Import a board to refine your feed" },
-            ].map(({ href, title, subtitle }, i, arr) => (
+            ] as const).map(({ href, title, subtitle }, i) => (
               <Link key={href} href={href} style={{
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "1.4rem 0",
-                borderBottom: i < arr.length - 1 ? "1px solid rgba(102, 12, 13, 0.08)" : "none",
+                borderBottom: "1px solid rgba(102, 12, 13, 0.08)",
                 textDecoration: "none",
                 color: "#660C0D",
               }}>
@@ -123,6 +122,20 @@ export default async function ProfilePage() {
                 <span style={{ color: "rgba(102, 12, 13, 0.3)", fontSize: "1.4rem" }}>→</span>
               </Link>
             ))}
+            <a href="/api/pinterest/auth" style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "1.4rem 0",
+              textDecoration: "none",
+              color: "#660C0D",
+            }}>
+              <div>
+                <p style={{ fontWeight: 600, marginBottom: "0.2rem", fontSize: "1.2rem" }}>Connect Pinterest</p>
+                <p style={{ fontSize: "1rem", color: "rgba(102, 12, 13, 0.5)" }}>Import a board to refine your feed</p>
+              </div>
+              <span style={{ color: "rgba(102, 12, 13, 0.3)", fontSize: "1.4rem" }}>→</span>
+            </a>
           </div>
         </section>
 

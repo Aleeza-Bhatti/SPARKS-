@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const TEXT = "rgba(102, 12, 13, 0.75)";
 const TEXT_DIM = "rgba(102, 12, 13, 0.4)";
 const DIVIDER = "rgba(102, 12, 13, 0.1)";
@@ -44,7 +42,7 @@ export default function Footer() {
             { label: "Saved Items", href: "/favorites" },
             { label: "Connect Pinterest", href: "/api/pinterest/auth" },
           ].map(({ label, href }) => (
-            <Link key={label} href={href} style={{
+            <a key={label} href={href} style={{
               display: "block",
               color: TEXT,
               textDecoration: "none",
@@ -52,7 +50,7 @@ export default function Footer() {
               marginBottom: "0.6rem",
             }}>
               {label}
-            </Link>
+            </a>
           ))}
         </div>
 
@@ -74,7 +72,7 @@ export default function Footer() {
             { label: "My Account", href: "/profile" },
             { label: "About Sparks", href: "/about" },
           ].map(({ label, href }) => (
-            <Link key={label} href={href} style={{
+            <a key={label} href={href} style={{
               display: "block",
               color: TEXT,
               textDecoration: "none",
@@ -82,7 +80,7 @@ export default function Footer() {
               marginBottom: "0.6rem",
             }}>
               {label}
-            </Link>
+            </a>
           ))}
         </div>
 
