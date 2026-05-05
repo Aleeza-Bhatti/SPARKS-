@@ -66,7 +66,7 @@ export default function LandingPage() {
       </main>
 
       {/* Three-step strip */}
-      <footer className="border-t border-[rgba(102,12,13,0.1)] py-8 px-4 sm:px-6 bg-white">
+      <section className="border-t border-[rgba(102,12,13,0.1)] py-8 px-4 sm:px-6 bg-white">
         <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 text-center">
           {[
             { icon: "🔗", label: "Connect", desc: "Link a Pinterest board" },
@@ -82,7 +82,7 @@ export default function LandingPage() {
             </div>
           ))}
         </div>
-      </footer>
+      </section>
     </div>
   );
 }

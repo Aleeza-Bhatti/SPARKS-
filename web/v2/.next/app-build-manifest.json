@@ -6,20 +6,30 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(marketing)/page": [
+    "/(app)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(marketing)/page.js"
+      "static/chunks/app/(app)/layout.js"
     ],
-    "/api/pinterest/auth/route": [
+    "/(app)/today/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/pinterest/auth/route.js"
+      "static/chunks/app/(app)/today/loading.js"
     ],
-    "/api/pinterest/callback/route": [
+    "/(app)/today/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/pinterest/callback/route.js"
+      "static/chunks/app/(app)/today/page.js"
+    ],
+    "/(app)/occasion/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/occasion/page.js"
+    ],
+    "/api/dev/reset/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/dev/reset/route.js"
     ],
     "/onboarding/layout": [
       "static/chunks/webpack.js",
@@ -65,41 +75,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/onboarding/standards/page.js"
-    ],
-    "/api/standards/parse/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/standards/parse/route.js"
-    ],
-    "/onboarding/confirm/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/onboarding/confirm/page.js"
-    ],
-    "/(app)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/layout.js"
-    ],
-    "/(app)/today/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/today/loading.js"
-    ],
-    "/(app)/today/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/today/page.js"
-    ],
-    "/(app)/saved/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/saved/page.js"
-    ],
-    "/(app)/occasion/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/occasion/page.js"
     ]
   }
 }

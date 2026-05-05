@@ -1,7 +1,10 @@
 {
+  "/api/pinterest/pins/route": "app/api/pinterest/pins/route.js",
+  "/api/style/analyze/route": "app/api/style/analyze/route.js",
+  "/api/style/swipes/route": "app/api/style/swipes/route.js",
+  "/onboarding/swipe/page": "app/onboarding/swipe/page.js",
   "/onboarding/standards/page": "app/onboarding/standards/page.js",
-  "/(app)/today/page": "app/(app)/today/page.js",
-  "/(app)/saved/page": "app/(app)/saved/page.js",
-  "/onboarding/confirm/page": "app/onboarding/confirm/page.js",
-  "/(app)/occasion/page": "app/(app)/occasion/page.js"
+  "/onboarding/style-summary/page": "app/onboarding/style-summary/page.js",
+  "/onboarding/select-board/page": "app/onboarding/select-board/page.js",
+  "/(app)/today/page": "app/(app)/today/page.js"
 }

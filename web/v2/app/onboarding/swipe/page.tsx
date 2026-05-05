@@ -67,11 +67,11 @@ export default function SwipePage() {
   const progress = Math.round((currentIndex / deck.length) * 100);
 
   return (
-    <div>
+    <div className="flex min-h-0 flex-col">
       <ProgressBar step={3} />
 
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-display font-medium text-brand tracking-tight">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-2xl font-display font-medium text-brand tracking-tight sm:text-3xl">
           Would you wear this?
         </h2>
         <div className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export default function SwipePage() {
       </div>
 
       {/* Card stack */}
-      <div className="relative w-full mx-auto" style={{ maxWidth: 320, height: 360 }}>
+      <div className="relative mx-auto h-[min(109vw,52svh,453px)] min-h-[300px] w-[min(82vw,39svh,340px)]">
         {topThree.map((card, i) => (
           <SwipeCard
             key={card.id}
@@ -113,12 +113,12 @@ export default function SwipePage() {
       </div>
 
       {/* Hint */}
-      <p className="text-center text-xs text-brand-soft/50 mt-3 mb-5">
+      <p className="text-center text-xs text-brand-soft/50 mt-3 mb-4">
         Swipe or use the buttons below
       </p>
 
       {/* Action buttons */}
-      <div className="flex items-end justify-center gap-3">
+      <div className="flex items-end justify-center gap-3 pb-1">
         {/* Nope */}
         <button
           onClick={() => handleSwipe("nope")}

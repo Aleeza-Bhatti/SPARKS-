@@ -6,8 +6,6 @@ import ThinkingSteps from "@/components/search/ThinkingSteps";
 import ProductCard from "@/components/product/ProductCard";
 import type { Product } from "@/lib/types";
 
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
 interface FeedContentProps {
   initialProducts: Product[];
 }
@@ -17,8 +15,6 @@ export default function FeedContent({ initialProducts }: FeedContentProps) {
   const [searchResults, setSearchResults] = useState<Product[] | null>(null);
   const [searchIntent, setSearchIntent] = useState<string | null>(null);
   const [searchError, setSearchError] = useState("");
-
-  const day = DAYS[new Date().getDay()];
 
   const handleSearch = async (query: string) => {
     setSearching(true);
@@ -90,7 +86,7 @@ export default function FeedContent({ initialProducts }: FeedContentProps) {
             <div className="flex items-center gap-2">
               <img src="/assets/sparkle.svg" alt="" className="w-4 h-4 sparkle-pulse" />
               <p className="text-base font-semibold tracking-widest uppercase text-brand-soft">
-                {day}&apos;s picks
+                Today&apos;s picks
               </p>
             </div>
           )}

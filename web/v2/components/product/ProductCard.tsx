@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Heart } from "lucide-react";
+import { ExternalLink, Flag, Heart, Sparkles } from "lucide-react";
 import type { Product } from "@/lib/types";
 
 export const FAVORITES_KEY = "sparks:favorites";
@@ -73,109 +73,117 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-[#E5BE9A] shadow-[0_8px_24px_rgba(90,23,26,0.08)] group flex flex-col card-hover relative">
+    <div className="group relative aspect-[3/4] [perspective:1200px]">
+      <div className="relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus-within:[transform:rotateY(180deg)]">
+        <div className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border border-[#621414] bg-white shadow-[0_8px_24px_rgba(90,23,26,0.08)] card-hover [backface-visibility:hidden]">
+          <div className="relative min-h-0 flex-1 overflow-hidden bg-[#F3EEE8]">
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              unoptimized
+            />
+          </div>
 
-      {/* Image */}
-      <div className="relative overflow-hidden bg-[#F3EEE8]" style={{ aspectRatio: "3/4" }}>
-        <a
-          href={product.productUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute inset-0 block"
-        >
-        <Image
-          src={product.imageUrl}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          unoptimized
-        />
-        </a>
-
-        {/* Favorite button */}
-        <button
-          onClick={toggleFavorite}
-          className={`absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white shadow-[0_3px_12px_rgba(90,23,26,0.18)] border border-[#E5BE9A] flex items-center justify-center transition-colors ${
-            favorited ? "text-terracotta" : "text-brand hover:text-terracotta"
-          }`}
-          aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
-          aria-pressed={favorited}
-        >
-          <Heart className="w-4 h-4" fill={favorited ? "currentColor" : "none"} aria-hidden="true" />
-        </button>
-
-        {/* Report button — top-left, shows on hover */}
-        <div className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-          {reported ? (
-            <span className="bg-white text-brand text-xs px-2 py-0.5 rounded-full shadow-sm border border-[rgba(102,12,13,0.12)]">
-              Reported ✓
-            </span>
-          ) : (
-            <div className="relative">
-              <button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowReportMenu((v) => !v); }}
-                className="bg-white hover:bg-[#FFFCF8] text-brand hover:text-terracotta text-xs px-2 py-1 rounded-full shadow-sm border border-[rgba(102,12,13,0.12)] transition-colors flex items-center gap-1"
-                aria-label="Report this product"
+          <div className="shrink-0 border-t border-[#621414] bg-white/95 p-2 shadow-[0_-6px_20px_rgba(90,23,26,0.08)] backdrop-blur">
+            <div className="grid grid-cols-3 divide-x divide-[#621414]">
+              <a
+                href={product.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-9 items-center justify-center gap-1.5 rounded-l-lg text-sm font-bold text-brand transition-colors hover:bg-[#FBE1CC]"
               >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                  <line x1="4" y1="22" x2="4" y2="15" />
-                </svg>
-                Report
+                Shop
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
+              <button
+                onClick={handleTryOn}
+                className="grid min-h-9 place-items-center text-brand transition-colors hover:bg-[#FBE1CC]"
+                aria-label="Try on"
+              >
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
               </button>
+              <button
+                onClick={toggleFavorite}
+                className={`grid min-h-9 place-items-center rounded-r-lg transition-colors ${
+                  favorited ? "text-terracotta" : "text-brand hover:text-terracotta"
+                }`}
+                aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+                aria-pressed={favorited}
+              >
+                <Heart className="h-4 w-4" fill={favorited ? "currentColor" : "none"} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
 
-              {showReportMenu && (
-                <>
-                  <div className="fixed inset-0 z-20" onClick={() => setShowReportMenu(false)} />
-                  <div className="absolute left-0 top-8 z-30 bg-white border border-[rgba(102,12,13,0.1)] rounded-xl shadow-lg py-1 min-w-[160px]">
-                    <p className="px-3 py-1.5 text-xs font-semibold text-brand-soft uppercase tracking-wide">Why are you reporting?</p>
-                    {["Not modest", "Wrong size", "Broken link", "Not my style", "Other"].map((r) => (
-                      <button
-                        key={r}
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleReport(r); }}
-                        className="w-full text-left px-3 py-2 text-xs text-brand hover:bg-[rgba(102,12,13,0.04)] transition-colors"
-                      >
-                        {r}
-                      </button>
-                    ))}
-                  </div>
-                </>
+        <div className="absolute inset-0 flex flex-col rounded-2xl border border-[#621414] bg-white p-3.5 shadow-[0_12px_32px_rgba(102,12,13,0.1)] [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-4">
+          <div className="mb-2 min-w-0">
+            <div className="min-w-0">
+              <p className="text-xs font-bold uppercase tracking-wide text-brand-soft sm:text-sm">
+                {product.brand}
+              </p>
+              <p className="mt-1.5 line-clamp-3 text-lg font-semibold leading-snug text-brand sm:text-xl">
+                {product.name}
+              </p>
+            </div>
+          </div>
+
+          <p className="mb-3 text-xl font-bold text-brand sm:text-2xl">
+            ${product.price % 1 === 0 ? product.price.toFixed(0) : product.price.toFixed(2)}
+          </p>
+
+          <div className="mb-3 flex flex-wrap gap-1.5 overflow-hidden">
+            {product.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-[rgba(102,12,13,0.1)] bg-[#FFFCF8] px-2.5 py-1.5 text-xs font-semibold capitalize leading-none text-brand-soft"
+              >
+                {tag.replace(/-/g, " ")}
+              </span>
+            ))}
+          </div>
+
+          <div className="relative mt-auto">
+            <div>
+              {reported ? (
+                <span className="inline-flex min-h-7 items-center rounded-full border border-[rgba(102,12,13,0.12)] bg-[#FFFCF8] px-2 text-xs font-semibold text-brand">
+                  Reported
+                </span>
+              ) : (
+                <div className="relative">
+                  <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowReportMenu((v) => !v); }}
+                    className="inline-flex min-h-7 items-center gap-1 rounded-full border border-[rgba(102,12,13,0.12)] bg-[#FFFCF8] px-2 text-xs font-semibold text-brand transition-colors hover:bg-[#FBE1CC]"
+                    aria-label="Report this product"
+                  >
+                    <Flag className="h-3 w-3" aria-hidden="true" />
+                    Report
+                  </button>
+
+                  {showReportMenu && (
+                    <>
+                      <div className="fixed inset-0 z-20" onClick={() => setShowReportMenu(false)} />
+                      <div className="absolute bottom-8 left-0 z-30 min-w-[160px] rounded-xl border border-[rgba(102,12,13,0.1)] bg-white py-1 shadow-lg">
+                        <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-brand-soft">Why are you reporting?</p>
+                        {["Not modest", "Wrong size", "Broken link", "Not my style", "Other"].map((r) => (
+                          <button
+                            key={r}
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleReport(r); }}
+                            className="w-full px-3 py-2 text-left text-xs text-brand transition-colors hover:bg-[rgba(102,12,13,0.04)]"
+                          >
+                            {r}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="px-3.5 pt-3.5 pb-3.5 flex flex-col flex-1">
-        <p className="text-[11px] text-brand-soft font-bold uppercase tracking-wide mb-1">
-          {product.brand}
-        </p>
-        <p className="text-[15px] font-semibold text-brand leading-snug mb-1.5 line-clamp-2">
-          {product.name}
-        </p>
-        <p className="text-base text-brand font-bold mb-3.5">
-          ${product.price % 1 === 0 ? product.price.toFixed(0) : product.price.toFixed(2)}
-        </p>
-
-        {/* Action row */}
-        <div className="mt-auto grid gap-2">
-          <a
-            href={product.productUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-10 flex items-center justify-center rounded-xl text-sm font-bold text-white bg-[#5A171A] shadow-[0_4px_12px_rgba(90,23,26,0.2)] transition-colors hover:bg-[#C96F35]"
-          >
-            Shop →
-          </a>
-          <button
-            onClick={handleTryOn}
-            className="min-h-9 flex items-center justify-center gap-1.5 rounded-xl text-xs font-bold border border-[#E5BE9A] bg-[#FFFCF8] text-brand hover:bg-[#FBE1CC] hover:border-terracotta transition-colors"
-          >
-            <img src="/assets/sparkle.svg" alt="" className="w-3.5 h-3.5 opacity-90" />
-            Try on
-          </button>
+          </div>
         </div>
       </div>
     </div>

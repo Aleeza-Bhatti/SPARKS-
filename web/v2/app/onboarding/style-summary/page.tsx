@@ -66,7 +66,7 @@ export default function StyleSummaryPage() {
       <ProgressBar step={2} />
 
       <h2 className="text-3xl font-display font-medium text-brand tracking-tight mb-2">
-        Your aesthetic, unlocked.
+        Unlocking your style
       </h2>
 
       {loading && (
