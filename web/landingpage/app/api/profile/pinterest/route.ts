@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
   }
 
-  let body: { boardKeywords?: unknown; boardVector?: unknown };
+  let body: { boardKeywords?: unknown; boardVector?: unknown; boardId?: unknown; boardName?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -21,6 +21,8 @@ export async function POST(request: Request) {
     : [];
 
   const boardVector = Array.isArray(body.boardVector) ? body.boardVector as number[] : null;
+  const boardId = typeof body.boardId === "string" ? body.boardId : null;
+  const boardName = typeof body.boardName === "string" ? body.boardName : null;
 
   if (!boardVector || boardVector.length === 0) {
     return NextResponse.json({ error: "Board vector is required", code: "NO_VECTOR" }, { status: 400 });
@@ -32,6 +34,8 @@ export async function POST(request: Request) {
       aesthetics: boardKeywords,
       raw_text_dump: `Pinterest board keywords: ${boardKeywords.join(", ")}`,
       embedding: JSON.stringify(boardVector),
+      pinterest_board_id: boardId,
+      pinterest_board_name: boardName,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "user_id" }

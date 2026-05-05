@@ -1,0 +1,10 @@
+{
+  "/api/pinterest/auth/route": "app/api/pinterest/auth/route.js",
+  "/api/pinterest/callback/route": "app/api/pinterest/callback/route.js",
+  "/api/dev/reset/route": "app/api/dev/reset/route.js",
+  "/api/pinterest/boards/route": "app/api/pinterest/boards/route.js",
+  "/(marketing)/page": "app/(marketing)/page.js",
+  "/(app)/today/page": "app/(app)/today/page.js",
+  "/(app)/occasion/page": "app/(app)/occasion/page.js",
+  "/onboarding/select-board/page": "app/onboarding/select-board/page.js"
+}

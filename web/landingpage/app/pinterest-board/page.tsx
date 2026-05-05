@@ -32,7 +32,7 @@ export default function PinterestBoardPage() {
       .finally(() => setLoadingBoards(false));
   }, []);
 
-  const selectBoard = async (boardId: string) => {
+  const selectBoard = async (boardId: string, boardName: string) => {
     setStep("importing");
 
     try {
@@ -59,6 +59,8 @@ export default function PinterestBoardPage() {
         body: JSON.stringify({
           boardKeywords: rankData.boardKeywords ?? [],
           boardVector: rankData.boardVector ?? [],
+          boardId,
+          boardName,
         }),
       });
 
@@ -171,7 +173,7 @@ export default function PinterestBoardPage() {
           {boards.map((board) => (
             <button
               key={board.id}
-              onClick={() => selectBoard(board.id)}
+              onClick={() => selectBoard(board.id, board.name)}
               style={{
                 display: "flex",
                 justifyContent: "space-between",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 
@@ -13,6 +13,12 @@ type Product = {
   productUrl: string;
   matchPercent: number;
   confidence: string;
+  seen?: boolean;
+};
+
+type DiscoverStatus = {
+  status: string;
+  canRunAgainIn: number;
 };
 
 export default function FeedPage() {
@@ -21,6 +27,10 @@ export default function FeedPage() {
   const [error, setError] = useState("");
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [togglingFav, setTogglingFav] = useState<Set<string>>(new Set());
+  const [discoverStatus, setDiscoverStatus] = useState<DiscoverStatus | null>(null);
+  const [discovering, setDiscovering] = useState(false);
+  const [discoverMessage, setDiscoverMessage] = useState("");
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     fetch("/api/favorites")
@@ -30,7 +40,12 @@ export default function FeedPage() {
           setFavorites(new Set((data.favorites as { product_id: string }[]).map((f) => f.product_id)));
         }
       })
-      .catch(() => { /* favorites table may not exist yet, non-blocking */ });
+      .catch(() => {});
+
+    fetch("/api/discover/status")
+      .then((r) => r.json())
+      .then((data) => setDiscoverStatus(data))
+      .catch(() => {});
 
     const stored = sessionStorage.getItem("rankedProducts");
     if (stored) {
@@ -48,7 +63,54 @@ export default function FeedPage() {
       })
       .catch(() => setError("Could not reach the server. Please refresh."))
       .finally(() => setLoading(false));
+
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
   }, []);
+
+  const findMore = async () => {
+    if (discovering) return;
+    setDiscovering(true);
+    setDiscoverMessage("Finding more products for your style…");
+
+    const res = await fetch("/api/discover", { method: "POST" }).catch(() => null);
+    if (!res || !res.ok) {
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if ((data as { code?: string }).code === "RATE_LIMITED") {
+        setDiscoverMessage("You've already searched recently. Check back tomorrow!");
+      } else {
+        setDiscoverMessage("Something went wrong. Please try again later.");
+      }
+      setDiscovering(false);
+      return;
+    }
+
+    // Refresh status so the cooldown appears immediately
+    fetch("/api/discover/status").then((r) => r.json()).then(setDiscoverStatus).catch(() => {});
+
+    let polls = 0;
+    pollRef.current = setInterval(async () => {
+      polls++;
+      try {
+        const statusData: DiscoverStatus = await fetch("/api/discover/status").then((r) => r.json());
+        setDiscoverStatus(statusData);
+        if (statusData.status === "complete" || (statusData.status !== "running" && polls > 1)) {
+          if (pollRef.current) clearInterval(pollRef.current);
+          setDiscovering(false);
+          setDiscoverMessage("New products are ready!");
+          setTimeout(() => window.location.reload(), 1500);
+        }
+      } catch {
+        // ignore poll errors
+      }
+      if (polls >= 12) {
+        if (pollRef.current) clearInterval(pollRef.current);
+        setDiscovering(false);
+        setDiscoverMessage("This is taking a while — check back in a few minutes!");
+      }
+    }, 10000);
+  };
 
   const toggleFavorite = async (product: Product) => {
     if (togglingFav.has(product.id)) return;
@@ -119,12 +181,7 @@ export default function FeedPage() {
         <main style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "80vh", padding: "2rem" }}>
           <div style={{ ...glassCard, maxWidth: "400px" }}>
             <p style={{ color: "#660C0D", marginBottom: "1rem", fontWeight: 600 }}>{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              style={primaryBtn}
-            >
-              Try again
-            </button>
+            <button onClick={() => window.location.reload()} style={primaryBtn}>Try again</button>
           </div>
         </main>
       </div>
@@ -141,8 +198,16 @@ export default function FeedPage() {
             <p style={{ fontSize: "0.9rem", color: "rgba(102,12,13,0.6)", marginBottom: "1.5rem", lineHeight: 1.5 }}>
               Products are being discovered for your style. Check back in a moment.
             </p>
+            {discoverMessage && (
+              <p style={{ fontSize: "0.85rem", color: "rgba(102,12,13,0.55)", marginBottom: "1rem" }}>{discoverMessage}</p>
+            )}
             <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button onClick={() => window.location.reload()} style={primaryBtn}>Refresh</button>
+              {!discoverStatus?.canRunAgainIn && (
+                <button onClick={findMore} disabled={discovering} style={{ ...secondaryBtn, cursor: discovering ? "not-allowed" : "pointer" }}>
+                  {discovering ? "Searching…" : "Find products"}
+                </button>
+              )}
               <Link href="/quiz" style={secondaryBtn}>Redo quiz</Link>
             </div>
           </div>
@@ -150,6 +215,10 @@ export default function FeedPage() {
       </div>
     );
   }
+
+  const cooldownHours = discoverStatus?.canRunAgainIn
+    ? Math.ceil(discoverStatus.canRunAgainIn / 3600)
+    : 0;
 
   return (
     <div style={feedShell}>
@@ -226,16 +295,41 @@ export default function FeedPage() {
             );
           })}
         </div>
+
+        {/* Find more products */}
+        <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid rgba(102,12,13,0.08)", textAlign: "center" }}>
+          {discoverMessage && (
+            <p style={{ fontSize: "0.9rem", color: "rgba(102,12,13,0.65)", marginBottom: "1rem" }}>
+              {discovering && <Spinner inline />} {discoverMessage}
+            </p>
+          )}
+          {cooldownHours > 0 ? (
+            <p style={{ fontSize: "0.85rem", color: "rgba(102,12,13,0.4)" }}>
+              More products available in {cooldownHours}h
+            </p>
+          ) : (
+            <button
+              onClick={findMore}
+              disabled={discovering}
+              style={{ ...primaryBtn, ...(discovering ? { opacity: 0.6, cursor: "not-allowed" } : {}) }}
+            >
+              {discovering ? "Searching…" : "Find more products"}
+            </button>
+          )}
+        </div>
       </main>
     </div>
   );
 }
 
-function Spinner() {
+function Spinner({ inline }: { inline?: boolean }) {
+  const size = inline ? "14px" : "28px";
+  const border = inline ? "2px" : "3px";
   return (
-    <div style={{ width: "28px", height: "28px", border: "3px solid rgba(102,12,13,0.15)", borderTopColor: "#660C0D", borderRadius: "50%", animation: "spin 0.8s linear infinite" }}>
+    <>
+      <span style={{ display: "inline-block", width: size, height: size, border: `${border} solid rgba(102,12,13,0.15)`, borderTopColor: "#660C0D", borderRadius: "50%", animation: "spin 0.8s linear infinite", verticalAlign: "middle", marginRight: inline ? "0.35rem" : 0 }} />
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
+    </>
   );
 }
 
@@ -260,4 +354,6 @@ const secondaryBtn: React.CSSProperties = {
   color: "#660C0D",
   fontSize: "0.9rem",
   fontWeight: 500,
+  background: "transparent",
+  fontFamily: "inherit",
 };

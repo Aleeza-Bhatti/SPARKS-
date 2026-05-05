@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #660C0D;
+  --brand-soft: rgba(102, 12, 13, 0.5);
+  --cream: #FFFCF8;
+  --card-bg: rgba(255, 252, 248, 0.95);
+  --warm-line: rgba(102, 12, 13, 0.12);
+  /* Gradient used only for special accents */
+  --grad-start: #FFCFC5;
+  --grad-end: #FFD0AE;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  /* Clean warm white — gradient is reserved for accents only */
+  background-color: #FAF8F5;
+  color: var(--brand);
+  font-family: var(--font-body), 'Urbanist', system-ui, sans-serif;
+}
+
+[data-swipe-card] {
+  cursor: grab;
+}
+[data-swipe-card]:active {
+  cursor: grabbing;
+}
+
+/* ── Sparkle gradient used for loading bars, hero highlights ── */
+.sparks-gradient {
+  background: linear-gradient(135deg, #FFCFC5 0%, #FFD0AE 100%);
+}
+
+.sparks-gradient-text {
+  background: linear-gradient(110deg, #c24f5a 0%, #d7655c 30%, #ffd8bf 50%, #c94f68 70%, #af6a43 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: textShimmer 3.8s ease-in-out infinite alternate;
+}
+
+/* ── Skeleton loader ── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: rgba(102, 12, 13, 0.07);
+  border-radius: 8px;
+}
+
+/* ── Loading bar with sparkle gradient ── */
+@keyframes loading-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.loading-bar {
+  overflow: hidden;
+  background: rgba(102, 12, 13, 0.07);
+  border-radius: 999px;
+}
+.loading-bar-fill {
+  height: 100%;
+  width: 30%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #FFCFC5, #c24f5a, #FFD0AE);
+  animation: loading-bar 1.6s ease-in-out infinite;
+}
+
+/* ── Sparkle pulse ── */
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.9) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(15deg); }
+}
+.sparkle-pulse {
+  animation: sparkle-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes textShimmer {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* ── Card hover lift ── */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(102, 12, 13, 0.1);
+}
+
+/* ── Clothing carousel ── */
+@keyframes carousel-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.carousel-track {
+  animation: carousel-scroll 28s linear infinite;
+  width: max-content;
+}
+.carousel-track:hover {
+  animation-play-state: paused;
+}

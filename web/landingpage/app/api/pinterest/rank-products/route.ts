@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import { existsSync, readFileSync } from "fs";
 import { generateEmbeddings } from "@/lib/embeddings";
 import { getCosineSimilarity, getMeanVector } from "@/lib/similarity";
 import { createClient } from "@/lib/supabase/server";
@@ -20,42 +18,6 @@ interface Product {
   productUrl: string;
   category?: string;
   tags?: string[];
-}
-
-function loadProducts(): Product[] {
-  const filePath = path.join(process.cwd(), "data", "products.json");
-  if (!existsSync(filePath)) return [];
-  try {
-    return JSON.parse(readFileSync(filePath, "utf8")) as Product[];
-  } catch {
-    return [];
-  }
-}
-
-function loadProductEmbeddings(): Map<string, number[]> {
-  const filePath = path.join(process.cwd(), "data", "product_embeddings.json");
-  if (!existsSync(filePath)) return new Map();
-  try {
-    const cache = JSON.parse(readFileSync(filePath, "utf8"));
-    const items: { id: string; embedding: number[] }[] = Array.isArray(cache?.items) ? cache.items : [];
-    return new Map(items.map((item) => [item.id, item.embedding]));
-  } catch {
-    return new Map();
-  }
-}
-
-function buildProductEmbeddingText(product: Product): string {
-  return [
-    product.name ?? "",
-    product.brand ?? "",
-    product.category ?? "",
-    Array.isArray(product.tags) ? product.tags.join(" ") : "",
-  ]
-    .filter(Boolean)
-    .join(". ")
-    .replace(/[#*_~`|<>[\]{}()]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 export async function POST(req: NextRequest) {
@@ -79,7 +41,6 @@ export async function POST(req: NextRequest) {
 
   const b = body as Record<string, unknown>;
   const rawPins: NormalizedPin[] = Array.isArray(b?.pins) ? (b.pins as NormalizedPin[]) : [];
-  // Cap pins to prevent runaway OpenAI costs
   const pins = rawPins.slice(0, 300);
   const topK = Number.isFinite(Number(b?.topK)) ? Math.max(1, Math.min(100, Number(b.topK))) : 30;
 
@@ -91,15 +52,47 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const products = loadProducts();
+  // Fetch products from Supabase
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const { data: dbProducts } = await supabase
+    .from("products")
+    .select("id, title, brand, price, image_url, product_url, category, tags, embedding")
+    .eq("modesty_verified", true)
+    .eq("in_stock", true)
+    .gte("last_verified_at", thirtyDaysAgo)
+    .limit(1000);
+
+  const products: Product[] = [];
+  const embeddingMap = new Map<string, number[]>();
+
+  for (const p of dbProducts ?? []) {
+    try {
+      const embedding: number[] = typeof p.embedding === "string"
+        ? JSON.parse(p.embedding)
+        : p.embedding;
+      if (!Array.isArray(embedding) || !embedding.length) continue;
+      embeddingMap.set(p.id, embedding);
+      products.push({
+        id: p.id,
+        name: p.title ?? "",
+        brand: p.brand ?? "",
+        price: Number(p.price ?? 0),
+        imageUrl: p.image_url ?? "",
+        productUrl: p.product_url ?? "",
+        category: p.category ?? undefined,
+        tags: Array.isArray(p.tags) ? (p.tags as string[]) : undefined,
+      });
+    } catch {
+      // skip malformed products
+    }
+  }
+
   if (!products.length) {
     return NextResponse.json(
-      { error: "No product catalog found", code: "NO_PRODUCTS" },
+      { error: "No products available yet. Products are still being discovered.", code: "NO_PRODUCTS" },
       { status: 500 }
     );
   }
-
-  const productEmbeddings = loadProductEmbeddings();
 
   try {
     // Generate pin embeddings in batches of 50
@@ -117,20 +110,7 @@ export async function POST(req: NextRequest) {
     const boardVector = getMeanVector(pinVectors);
     const boardKeywords = extractBoardKeywords(usablePins);
 
-    // Score products — use pre-computed embeddings, skip products without one
-    const productsWithEmbeddings = products.filter((p) => productEmbeddings.has(p.id));
-
-    // If pre-computed embeddings are missing, generate on the fly (first run only)
-    const productsToScore = productsWithEmbeddings.length ? productsWithEmbeddings : products;
-    const embeddingMap = new Map(productEmbeddings);
-
-    if (!productsWithEmbeddings.length) {
-      const texts = products.map((p) => buildProductEmbeddingText(p));
-      const vectors = await generateEmbeddings(texts);
-      products.forEach((p, i) => embeddingMap.set(p.id, vectors[i]));
-    }
-
-    const rawRanked = productsToScore
+    const rawRanked = products
       .map((product) => {
         const embedding = embeddingMap.get(product.id);
         if (!embedding) return null;
