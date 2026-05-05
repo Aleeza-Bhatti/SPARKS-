@@ -15,7 +15,7 @@ function TryOnContent() {
   const url   = params.get("url") ?? "";
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto">
 
       {/* Back */}
       <button
@@ -35,7 +35,7 @@ function TryOnContent() {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-2 gap-5 lg:gap-8">
 
         {/* Avatar / upload area — left */}
         <div className="flex flex-col gap-4">
@@ -56,7 +56,7 @@ function TryOnContent() {
           {/* Coming soon banner */}
           <div
             className="rounded-2xl px-4 py-4 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(255,207,197,0.4) 0%, rgba(255,208,174,0.3) 100%)", border: "1px solid rgba(102,12,13,0.1)" }}
+            style={{ background: "linear-gradient(135deg, rgba(251,225,204,0.75) 0%, rgba(242,161,95,0.22) 100%)", border: "1px solid #E5BE9A" }}
           >
             <div className="flex items-center justify-center gap-2 mb-1.5">
               <img src="/assets/sparkle.svg" alt="" className="w-4 h-4 sparkle-pulse" />
@@ -93,8 +93,7 @@ function TryOnContent() {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full text-center py-3 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #c24f5a, #af6a43)" }}
+              className="w-full text-center py-3 rounded-xl text-sm font-semibold text-white bg-[#5A171A] transition-colors hover:bg-[#C96F35]"
             >
               Shop this piece →
             </a>

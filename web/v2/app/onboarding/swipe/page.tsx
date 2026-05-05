@@ -93,7 +93,7 @@ export default function SwipePage() {
           className="h-full rounded-full transition-all duration-300"
           style={{
             width: `${progress}%`,
-            background: "linear-gradient(90deg, #FFCFC5, #c24f5a)",
+            background: "linear-gradient(90deg, #FBE1CC, #F2A15F)",
           }}
         />
       </div>
@@ -124,7 +124,7 @@ export default function SwipePage() {
           onClick={() => handleSwipe("nope")}
           className="flex flex-col items-center gap-1.5 group"
         >
-          <span className="w-14 h-14 rounded-full border-2 border-[rgba(163,90,87,0.4)] bg-white flex items-center justify-center text-terracotta text-xl group-hover:border-terracotta group-hover:bg-terracotta/5 transition-all shadow-sm">
+          <span className="w-14 h-14 rounded-full border-2 border-[rgba(201,111,53,0.42)] bg-white flex items-center justify-center text-terracotta text-xl group-hover:border-terracotta group-hover:bg-terracotta/5 transition-all shadow-sm">
             ✕
           </span>
           <span className="text-[11px] font-medium text-terracotta/60 group-hover:text-terracotta transition-colors">
@@ -137,7 +137,7 @@ export default function SwipePage() {
           onClick={() => handleSwipe("love")}
           className="flex flex-col items-center gap-1.5 group"
         >
-          <span className="w-16 h-16 rounded-full border-2 border-[rgba(201,125,82,0.45)] bg-white flex items-center justify-center text-brand-amber text-2xl group-hover:border-brand-amber group-hover:bg-brand-amber/5 transition-all shadow-sm">
+          <span className="w-16 h-16 rounded-full border-2 border-[rgba(242,161,95,0.55)] bg-white flex items-center justify-center text-brand-amber text-2xl group-hover:border-brand-amber group-hover:bg-brand-amber/5 transition-all shadow-sm">
             ✦
           </span>
           <span className="text-[11px] font-medium text-brand-amber/60 group-hover:text-brand-amber transition-colors">

@@ -1,4 +1,4 @@
-// File: C:\sparks\SPARKS-\web\v2\app\onboarding\select-board\page.tsx
+// File: /Users/zahra/Desktop/SPARKS-/web/v2/app/onboarding/select-board/page.tsx
 import * as entry from '../../../../../app/onboarding/select-board/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

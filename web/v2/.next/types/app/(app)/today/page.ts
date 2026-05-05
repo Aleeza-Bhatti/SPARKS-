@@ -1,4 +1,4 @@
-// File: C:\sparks\SPARKS-\web\v2\app\(app)\today\page.tsx
+// File: /Users/zahra/Desktop/SPARKS-/web/v2/app/(app)/today/page.tsx
 import * as entry from '../../../../../app/(app)/today/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

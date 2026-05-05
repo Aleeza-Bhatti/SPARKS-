@@ -1,4 +1,4 @@
-// File: C:\sparks\SPARKS-\web\v2\app\api\pinterest\auth\route.ts
+// File: /Users/zahra/Desktop/SPARKS-/web/v2/app/api/pinterest/auth/route.ts
 import * as entry from '../../../../../../app/api/pinterest/auth/route.js'
 import type { NextRequest } from 'next/server.js'
 

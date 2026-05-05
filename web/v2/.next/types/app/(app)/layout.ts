@@ -1,4 +1,4 @@
-// File: C:\sparks\SPARKS-\web\v2\app\(app)\layout.tsx
+// File: /Users/zahra/Desktop/SPARKS-/web/v2/app/(app)/layout.tsx
 import * as entry from '../../../../app/(app)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

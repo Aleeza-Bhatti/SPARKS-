@@ -89,8 +89,8 @@ export default function FeedContent({ initialProducts }: FeedContentProps) {
           ) : (
             <div className="flex items-center gap-2">
               <img src="/assets/sparkle.svg" alt="" className="w-4 h-4 sparkle-pulse" />
-              <p className="text-xs font-semibold tracking-widest uppercase text-brand-soft">
-                {day}&apos;s picks · Made for your style
+              <p className="text-base font-semibold tracking-widest uppercase text-brand-soft">
+                {day}&apos;s picks
               </p>
             </div>
           )}
@@ -99,7 +99,7 @@ export default function FeedContent({ initialProducts }: FeedContentProps) {
 
       {/* Products grid */}
       {!isSearching && displayProducts.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="product-grid">
           {displayProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

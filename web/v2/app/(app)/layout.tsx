@@ -9,7 +9,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen">
       <AppNav />
-      <main className="max-w-5xl mx-auto px-4 py-6">{children}</main>
+      <main className="w-full max-w-[1800px] mx-auto px-3 py-5 sm:px-5 sm:py-6 lg:px-8">{children}</main>
     </div>
   );
 }

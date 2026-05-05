@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Search } from "lucide-react";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -22,20 +23,20 @@ export default function SearchBar({ onSearch, loading }: SearchBarProps) {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="e.g. flowy midi skirt for summer, modest office look…"
+        placeholder="What are you looking for?"
         disabled={loading}
-        className="w-full bg-card-bg border border-warm-line rounded-2xl px-4 py-3.5 pr-14 text-sm text-brand placeholder:text-brand-soft/40 focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:opacity-60"
+        className="w-full bg-[#FFFCF8] border border-[#E5BE9A] rounded-2xl px-4 py-3.5 pr-14 text-sm font-medium text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] placeholder:text-brand-soft/70 focus:outline-none focus:border-brand/60 focus:ring-2 focus:ring-brand/25 disabled:opacity-60"
       />
       <button
         type="submit"
         disabled={!query.trim() || loading}
         aria-label="Search"
-        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-xl bg-brand text-cream disabled:opacity-40 hover:bg-brand/90 transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full text-terracotta disabled:opacity-40 hover:bg-[#FBE1CC] hover:text-brand transition-colors"
       >
         {loading ? (
-          <span className="w-3.5 h-3.5 border-2 border-cream/40 border-t-cream rounded-full animate-spin" />
+          <span className="w-3.5 h-3.5 border-2 border-brand/25 border-t-brand rounded-full animate-spin" />
         ) : (
-          <span className="text-sm leading-none">→</span>
+          <Search className="w-4 h-4" aria-hidden="true" />
         )}
       </button>
     </form>

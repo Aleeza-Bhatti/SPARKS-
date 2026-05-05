@@ -21,6 +21,61 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/pinterest/callback/route.js"
     ],
+    "/onboarding/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/onboarding/layout.js"
+    ],
+    "/onboarding/select-board/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/onboarding/select-board/page.js"
+    ],
+    "/api/pinterest/boards/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/pinterest/boards/route.js"
+    ],
+    "/api/pinterest/pins/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/pinterest/pins/route.js"
+    ],
+    "/onboarding/style-summary/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/onboarding/style-summary/page.js"
+    ],
+    "/api/style/analyze/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/style/analyze/route.js"
+    ],
+    "/onboarding/swipe/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/onboarding/swipe/page.js"
+    ],
+    "/api/style/swipes/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/style/swipes/route.js"
+    ],
+    "/onboarding/standards/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/onboarding/standards/page.js"
+    ],
+    "/api/standards/parse/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/standards/parse/route.js"
+    ],
+    "/onboarding/confirm/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/onboarding/confirm/page.js"
+    ],
     "/(app)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -36,30 +91,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/today/page.js"
     ],
+    "/(app)/saved/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/saved/page.js"
+    ],
     "/(app)/occasion/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/occasion/page.js"
-    ],
-    "/api/dev/reset/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/dev/reset/route.js"
-    ],
-    "/onboarding/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/onboarding/layout.js"
-    ],
-    "/onboarding/select-board/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/onboarding/select-board/page.js"
-    ],
-    "/api/pinterest/boards/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/pinterest/boards/route.js"
     ]
   }
 }
