@@ -281,6 +281,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/api/tryon/avatar/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/tryon/avatar">> = Specific
+  const handler = {} as typeof import("../../app/api/tryon/avatar/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/api/tryon/outfit/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/tryon/outfit">> = Specific
+  const handler = {} as typeof import("../../app/api/tryon/outfit/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 
 
 

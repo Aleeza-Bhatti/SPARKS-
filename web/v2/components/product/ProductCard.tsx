@@ -1,14 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/types";
+
+const SAVED_KEY = "sparks_v2_saved";
+
+function useSaved(productId: string) {
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    try {
+      const items = JSON.parse(localStorage.getItem(SAVED_KEY) ?? "[]") as Product[];
+      setSaved(items.some((p) => p.id === productId));
+    } catch { /* ignore */ }
+  }, [productId]);
+
+  const toggle = useCallback((product: Product) => {
+    try {
+      const items = JSON.parse(localStorage.getItem(SAVED_KEY) ?? "[]") as Product[];
+      const exists = items.some((p) => p.id === product.id);
+      const updated = exists ? items.filter((p) => p.id !== product.id) : [product, ...items];
+      localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
+      setSaved(!exists);
+    } catch { /* storage full */ }
+  }, []);
+
+  return { saved, toggle };
+}
 
 export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
   const [reported, setReported] = useState(false);
   const [showReportMenu, setShowReportMenu] = useState(false);
+  const { saved, toggle } = useSaved(product.id);
 
   const handleReport = (reason: string) => {
     setShowReportMenu(false);
@@ -115,6 +141,19 @@ export default function ProductCard({ product }: { product: Product }) {
           >
             <img src="/assets/sparkle.svg" alt="" className="w-3 h-3 opacity-70" />
             Try on
+          </button>
+          <button
+            onClick={() => toggle(product)}
+            title={saved ? "Remove from saved" : "Save item"}
+            className={`w-7 h-7 rounded-lg flex items-center justify-center border transition-colors flex-shrink-0 ${
+              saved
+                ? "border-brand bg-[rgba(102,12,13,0.07)] text-brand"
+                : "border-[rgba(102,12,13,0.15)] text-brand-soft hover:text-brand hover:border-brand"
+            }`}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
           </button>
           <a
             href={product.productUrl}

@@ -36,30 +36,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(app)/today/page.js"
     ],
-    "/(app)/occasion/page": [
+    "/(app)/tryon/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(app)/occasion/page.js"
+      "static/chunks/app/(app)/tryon/page.js"
     ],
-    "/api/dev/reset/route": [
+    "/api/tryon/avatar/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/dev/reset/route.js"
-    ],
-    "/onboarding/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/onboarding/layout.js"
-    ],
-    "/onboarding/select-board/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/onboarding/select-board/page.js"
-    ],
-    "/api/pinterest/boards/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/pinterest/boards/route.js"
+      "static/chunks/app/api/tryon/avatar/route.js"
     ]
   }
 }
