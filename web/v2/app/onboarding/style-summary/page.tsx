@@ -66,7 +66,7 @@ export default function StyleSummaryPage() {
       <ProgressBar step={2} />
 
       <h2 className="text-3xl font-display font-medium text-brand tracking-tight mb-2">
-        Your aesthetic, unlocked.
+        Unlocking your style
       </h2>
 
       {loading && (
@@ -180,8 +180,7 @@ export default function StyleSummaryPage() {
           <div className="flex flex-col gap-3">
             <button
               onClick={() => router.push("/onboarding/swipe")}
-              className="w-full font-semibold py-3.5 rounded-2xl text-sm text-white transition-opacity hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #c24f5a 0%, #af6a43 100%)" }}
+              className="w-full font-semibold py-3.5 rounded-2xl text-sm text-white bg-[#5A171A] transition-colors hover:bg-[#C96F35]"
             >
               Looks right →
             </button>

@@ -67,11 +67,11 @@ export default function SwipePage() {
   const progress = Math.round((currentIndex / deck.length) * 100);
 
   return (
-    <div>
+    <div className="flex min-h-0 flex-col">
       <ProgressBar step={3} />
 
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-display font-medium text-brand tracking-tight">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-2xl font-display font-medium text-brand tracking-tight sm:text-3xl">
           Would you wear this?
         </h2>
         <div className="flex items-center gap-2">
@@ -93,13 +93,13 @@ export default function SwipePage() {
           className="h-full rounded-full transition-all duration-300"
           style={{
             width: `${progress}%`,
-            background: "linear-gradient(90deg, #FFCFC5, #c24f5a)",
+            background: "linear-gradient(90deg, #FBE1CC, #F2A15F)",
           }}
         />
       </div>
 
       {/* Card stack */}
-      <div className="relative w-full mx-auto" style={{ maxWidth: 320, height: 360 }}>
+      <div className="relative mx-auto h-[min(109vw,52svh,453px)] min-h-[300px] w-[min(82vw,39svh,340px)]">
         {topThree.map((card, i) => (
           <SwipeCard
             key={card.id}
@@ -113,18 +113,18 @@ export default function SwipePage() {
       </div>
 
       {/* Hint */}
-      <p className="text-center text-xs text-brand-soft/50 mt-3 mb-5">
+      <p className="text-center text-xs text-brand-soft/50 mt-3 mb-4">
         Swipe or use the buttons below
       </p>
 
       {/* Action buttons */}
-      <div className="flex items-end justify-center gap-3">
+      <div className="flex items-end justify-center gap-3 pb-1">
         {/* Nope */}
         <button
           onClick={() => handleSwipe("nope")}
           className="flex flex-col items-center gap-1.5 group"
         >
-          <span className="w-14 h-14 rounded-full border-2 border-[rgba(163,90,87,0.4)] bg-white flex items-center justify-center text-terracotta text-xl group-hover:border-terracotta group-hover:bg-terracotta/5 transition-all shadow-sm">
+          <span className="w-14 h-14 rounded-full border-2 border-[rgba(201,111,53,0.42)] bg-white flex items-center justify-center text-terracotta text-xl group-hover:border-terracotta group-hover:bg-terracotta/5 transition-all shadow-sm">
             ✕
           </span>
           <span className="text-[11px] font-medium text-terracotta/60 group-hover:text-terracotta transition-colors">
@@ -137,7 +137,7 @@ export default function SwipePage() {
           onClick={() => handleSwipe("love")}
           className="flex flex-col items-center gap-1.5 group"
         >
-          <span className="w-16 h-16 rounded-full border-2 border-[rgba(201,125,82,0.45)] bg-white flex items-center justify-center text-brand-amber text-2xl group-hover:border-brand-amber group-hover:bg-brand-amber/5 transition-all shadow-sm">
+          <span className="w-16 h-16 rounded-full border-2 border-[rgba(242,161,95,0.55)] bg-white flex items-center justify-center text-brand-amber text-2xl group-hover:border-brand-amber group-hover:bg-brand-amber/5 transition-all shadow-sm">
             ✦
           </span>
           <span className="text-[11px] font-medium text-brand-amber/60 group-hover:text-brand-amber transition-colors">

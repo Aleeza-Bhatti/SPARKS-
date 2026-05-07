@@ -3,9 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ExternalLink, Flag, Heart, Sparkles } from "lucide-react";
 import type { Product } from "@/lib/types";
 
 const SAVED_KEY = "sparks_v2_saved";
+
+/** Dispatched when saved items change so other surfaces (e.g. saved page) can refresh. */
+export const SAVED_ITEMS_CHANGED_EVENT = "sparks-v2-saved-changed";
 
 function useSaved(productId: string) {
   const [saved, setSaved] = useState(false);
@@ -14,7 +18,24 @@ function useSaved(productId: string) {
     try {
       const items = JSON.parse(localStorage.getItem(SAVED_KEY) ?? "[]") as Product[];
       setSaved(items.some((p) => p.id === productId));
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
+
+    const onStorage = () => {
+      try {
+        const items = JSON.parse(localStorage.getItem(SAVED_KEY) ?? "[]") as Product[];
+        setSaved(items.some((p) => p.id === productId));
+      } catch {
+        setSaved(false);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(SAVED_ITEMS_CHANGED_EVENT, onStorage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(SAVED_ITEMS_CHANGED_EVENT, onStorage);
+    };
   }, [productId]);
 
   const toggle = useCallback((product: Product) => {
@@ -24,7 +45,10 @@ function useSaved(productId: string) {
       const updated = exists ? items.filter((p) => p.id !== product.id) : [product, ...items];
       localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
       setSaved(!exists);
-    } catch { /* storage full */ }
+      window.dispatchEvent(new Event(SAVED_ITEMS_CHANGED_EVENT));
+    } catch {
+      /* storage full */
+    }
   }, []);
 
   return { saved, toggle };
@@ -39,7 +63,6 @@ export default function ProductCard({ product }: { product: Product }) {
   const handleReport = (reason: string) => {
     setShowReportMenu(false);
     setReported(true);
-    // Fire-and-forget; no backend yet
     fetch("/api/products/report", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -60,110 +83,127 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-[rgba(102,12,13,0.08)] shadow-sm group flex flex-col card-hover relative">
+    <div className="group relative aspect-[3/4] [perspective:1200px]">
+      <div className="relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus-within:[transform:rotateY(180deg)]">
+        <div className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border border-[#621414] bg-white shadow-[0_8px_24px_rgba(90,23,26,0.08)] card-hover [backface-visibility:hidden]">
+          <div className="relative min-h-0 flex-1 overflow-hidden bg-[#F3EEE8]">
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              unoptimized
+            />
+          </div>
 
-      {/* Image */}
-      <a
-        href={product.productUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block relative overflow-hidden"
-        style={{ aspectRatio: "3/4" }}
-      >
-        <Image
-          src={product.imageUrl}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          unoptimized
-        />
-
-        {/* Report button — top-left, shows on hover */}
-        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          {reported ? (
-            <span className="bg-white/90 text-brand-soft text-xs px-2 py-0.5 rounded-full shadow-sm">
-              Reported ✓
-            </span>
-          ) : (
-            <div className="relative">
-              <button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowReportMenu((v) => !v); }}
-                className="bg-white/90 hover:bg-white text-brand-soft hover:text-terracotta text-xs px-2 py-1 rounded-full shadow-sm transition-colors flex items-center gap-1"
-                aria-label="Report this product"
+          <div className="shrink-0 border-t border-[#621414] bg-white/95 p-2 shadow-[0_-6px_20px_rgba(90,23,26,0.08)] backdrop-blur">
+            <div className="grid grid-cols-3 divide-x divide-[#621414]">
+              <a
+                href={product.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-9 items-center justify-center gap-1.5 rounded-l-lg text-sm font-bold text-brand transition-colors hover:bg-[#FBE1CC]"
               >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                  <line x1="4" y1="22" x2="4" y2="15" />
-                </svg>
-                Report
+                Shop
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
+              <button
+                onClick={handleTryOn}
+                className="grid min-h-9 place-items-center text-brand transition-colors hover:bg-[#FBE1CC]"
+                aria-label="Try on"
+              >
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
               </button>
+              <button
+                onClick={() => toggle(product)}
+                className={`grid min-h-9 place-items-center rounded-r-lg transition-colors ${
+                  saved ? "text-terracotta" : "text-brand hover:text-terracotta"
+                }`}
+                aria-label={saved ? "Remove from saved" : "Add to saved"}
+                aria-pressed={saved}
+              >
+                <Heart className="h-4 w-4" fill={saved ? "currentColor" : "none"} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
 
-              {showReportMenu && (
-                <>
-                  <div className="fixed inset-0 z-20" onClick={() => setShowReportMenu(false)} />
-                  <div className="absolute left-0 top-8 z-30 bg-white border border-[rgba(102,12,13,0.1)] rounded-xl shadow-lg py-1 min-w-[160px]">
-                    <p className="px-3 py-1.5 text-xs font-semibold text-brand-soft uppercase tracking-wide">Why are you reporting?</p>
-                    {["Not modest", "Wrong size", "Broken link", "Not my style", "Other"].map((r) => (
-                      <button
-                        key={r}
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleReport(r); }}
-                        className="w-full text-left px-3 py-2 text-xs text-brand hover:bg-[rgba(102,12,13,0.04)] transition-colors"
-                      >
-                        {r}
-                      </button>
-                    ))}
-                  </div>
-                </>
+        <div className="absolute inset-0 flex flex-col rounded-2xl border border-[#621414] bg-white p-3.5 shadow-[0_12px_32px_rgba(102,12,13,0.1)] [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-4">
+          <div className="mb-2 min-w-0">
+            <div className="min-w-0">
+              <p className="text-xs font-bold uppercase tracking-wide text-brand-soft sm:text-sm">
+                {product.brand}
+              </p>
+              <p className="mt-1.5 line-clamp-3 text-lg font-semibold leading-snug text-brand sm:text-xl">
+                {product.name}
+              </p>
+            </div>
+          </div>
+
+          <p className="mb-3 text-xl font-bold text-brand sm:text-2xl">
+            ${product.price % 1 === 0 ? product.price.toFixed(0) : product.price.toFixed(2)}
+          </p>
+
+          <div className="mb-3 flex flex-wrap gap-1.5 overflow-hidden">
+            {product.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-[rgba(102,12,13,0.1)] bg-[#FFFCF8] px-2.5 py-1.5 text-xs font-semibold capitalize leading-none text-brand-soft"
+              >
+                {tag.replace(/-/g, " ")}
+              </span>
+            ))}
+          </div>
+
+          <div className="relative mt-auto">
+            <div>
+              {reported ? (
+                <span className="inline-flex min-h-7 items-center rounded-full border border-[rgba(102,12,13,0.12)] bg-[#FFFCF8] px-2 text-xs font-semibold text-brand">
+                  Reported
+                </span>
+              ) : (
+                <div className="relative">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowReportMenu((v) => !v);
+                    }}
+                    className="inline-flex min-h-7 items-center gap-1 rounded-full border border-[rgba(102,12,13,0.12)] bg-[#FFFCF8] px-2 text-xs font-semibold text-brand transition-colors hover:bg-[#FBE1CC]"
+                    aria-label="Report this product"
+                  >
+                    <Flag className="h-3 w-3" aria-hidden="true" />
+                    Report
+                  </button>
+
+                  {showReportMenu && (
+                    <>
+                      <div className="fixed inset-0 z-20" onClick={() => setShowReportMenu(false)} />
+                      <div className="absolute bottom-8 left-0 z-30 min-w-[160px] rounded-xl border border-[rgba(102,12,13,0.1)] bg-white py-1 shadow-lg">
+                        <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-brand-soft">
+                          Why are you reporting?
+                        </p>
+                        {["Not modest", "Wrong size", "Broken link", "Not my style", "Other"].map((r) => (
+                          <button
+                            key={r}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleReport(r);
+                            }}
+                            className="w-full px-3 py-2 text-left text-xs text-brand transition-colors hover:bg-[rgba(102,12,13,0.04)]"
+                          >
+                            {r}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
-      </a>
-
-      {/* Info */}
-      <div className="px-3.5 pt-3 pb-3 flex flex-col flex-1">
-        <p className="text-xs text-brand-soft font-medium uppercase tracking-wide mb-0.5">
-          {product.brand}
-        </p>
-        <p className="text-sm font-medium text-brand leading-snug mb-1 line-clamp-2">
-          {product.name}
-        </p>
-        <p className="text-sm text-brand font-semibold mb-3">
-          ${product.price % 1 === 0 ? product.price.toFixed(0) : product.price.toFixed(2)}
-        </p>
-
-        {/* Action row */}
-        <div className="mt-auto flex items-center gap-2">
-          <button
-            onClick={handleTryOn}
-            className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold border border-[rgba(102,12,13,0.15)] text-brand hover:bg-[rgba(102,12,13,0.05)] transition-colors"
-          >
-            <img src="/assets/sparkle.svg" alt="" className="w-3 h-3 opacity-70" />
-            Try on
-          </button>
-          <button
-            onClick={() => toggle(product)}
-            title={saved ? "Remove from saved" : "Save item"}
-            className={`w-7 h-7 rounded-lg flex items-center justify-center border transition-colors flex-shrink-0 ${
-              saved
-                ? "border-brand bg-[rgba(102,12,13,0.07)] text-brand"
-                : "border-[rgba(102,12,13,0.15)] text-brand-soft hover:text-brand hover:border-brand"
-            }`}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.2">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
-          </button>
-          <a
-            href={product.productUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-85"
-            style={{ background: "linear-gradient(135deg, #c24f5a, #af6a43)" }}
-          >
-            Shop →
-          </a>
+          </div>
         </div>
       </div>
     </div>

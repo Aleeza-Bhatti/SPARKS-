@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/types";
+import { SAVED_ITEMS_CHANGED_EVENT } from "@/components/product/ProductCard";
 
 const SAVED_KEY = "sparks_v2_saved";
 
@@ -20,12 +21,28 @@ export default function SavedPage() {
       setItems([]);
     }
     setHydrated(true);
+
+    const sync = () => {
+      try {
+        const raw = localStorage.getItem(SAVED_KEY);
+        setItems(raw ? (JSON.parse(raw) as Product[]) : []);
+      } catch {
+        setItems([]);
+      }
+    };
+    window.addEventListener(SAVED_ITEMS_CHANGED_EVENT, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(SAVED_ITEMS_CHANGED_EVENT, sync);
+      window.removeEventListener("storage", sync);
+    };
   }, []);
 
   const remove = (id: string) => {
     setItems((prev) => {
       const updated = prev.filter((p) => p.id !== id);
       localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
+      window.dispatchEvent(new Event(SAVED_ITEMS_CHANGED_EVENT));
       return updated;
     });
   };

@@ -11,7 +11,7 @@ export default function TodayLoading() {
         <div className="loading-bar-fill" />
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="product-grid">
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} className="rounded-2xl overflow-hidden bg-white border border-[rgba(102,12,13,0.08)] card-hover">
             <div className="skeleton aspect-[3/4] w-full" style={{ borderRadius: 0 }} />

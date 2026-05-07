@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Urbanist, Cormorant_Garamond, Barlow_Condensed } from "next/font/google";
+import AppShell from "@/components/nav/AppShell";
 import "./globals.css";
 
 const display = Fraunces({
@@ -36,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} ${heading.variable} ${detail.variable}`}>
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

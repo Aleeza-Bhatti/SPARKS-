@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback, Suspense } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import type { Product } from "@/lib/types";
+import { SAVED_ITEMS_CHANGED_EVENT } from "@/components/product/ProductCard";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -172,34 +173,36 @@ function AvatarSetup({ onSaved }: { onSaved: (views: AvatarView[]) => void }) {
   const filledCount = previews.filter(Boolean).length;
 
   return (
-    <div className="max-w-lg mx-auto">
-      <div className="flex items-start gap-2.5 mb-6">
-        <img src="/assets/sparkle.svg" alt="" className="w-5 h-5 mt-0.5 sparkle-pulse flex-shrink-0" />
-        <div>
-          <p className="text-xs font-semibold tracking-widest uppercase text-brand-soft mb-0.5">Virtual try-on</p>
-          <h1 className="text-2xl font-display font-medium text-brand tracking-tight">Set up your avatar</h1>
-          <p className="text-sm text-brand-soft mt-1 leading-relaxed">
-            Upload your 4 avatar images (front, back, left, right views). These will be saved to your account — you only need to do this once.
+    <div className="w-full max-w-5xl mx-auto px-4">
+      <div className="grid md:grid-cols-2 gap-5 lg:gap-8 items-start mb-6">
+        <div className="flex items-start gap-2.5">
+          <img src="/assets/sparkle.svg" alt="" className="w-5 h-5 mt-0.5 sparkle-pulse flex-shrink-0" />
+          <div>
+            <p className="text-xs font-semibold tracking-widest uppercase text-brand-soft mb-0.5">Virtual try-on</p>
+            <h1 className="text-2xl font-display font-medium text-brand tracking-tight">Set up your avatar</h1>
+            <p className="text-sm text-brand-soft mt-1 leading-relaxed">
+              Upload your 4 avatar images (front, back, left, right views). These will be saved to your account — you only need to do this once.
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-[rgba(102,12,13,0.08)] p-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+            {VIEW_LABELS.map((label, i) => (
+              <UploadSlot
+                key={label}
+                label={label}
+                required={i === 0}
+                preview={previews[i]}
+                onFile={(b) => setPreview(i, b)}
+                onClear={() => setPreview(i, null)}
+              />
+            ))}
+          </div>
+          <p className="text-[11px] text-brand-soft">
+            Front view is required · {filledCount} of 4 uploaded
           </p>
         </div>
-      </div>
-
-      <div className="bg-white rounded-2xl border border-[rgba(102,12,13,0.08)] p-5 mb-4">
-        <div className="grid grid-cols-4 gap-2.5 mb-4">
-          {VIEW_LABELS.map((label, i) => (
-            <UploadSlot
-              key={label}
-              label={label}
-              required={i === 0}
-              preview={previews[i]}
-              onFile={(b) => setPreview(i, b)}
-              onClear={() => setPreview(i, null)}
-            />
-          ))}
-        </div>
-        <p className="text-[11px] text-brand-soft">
-          Front view is required · {filledCount} of 4 uploaded
-        </p>
       </div>
 
       {error && (
@@ -211,7 +214,7 @@ function AvatarSetup({ onSaved }: { onSaved: (views: AvatarView[]) => void }) {
       <button
         onClick={handleSave}
         disabled={!previews[0] || saving}
-        className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-opacity disabled:opacity-40 flex items-center justify-center gap-2"
+        className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-opacity disabled:opacity-40 flex items-center justify-center gap-2 max-w-lg md:max-w-none md:mx-0 mx-auto"
         style={{ background: "linear-gradient(135deg, #c24f5a, #af6a43)" }}
       >
         {saving ? (
@@ -229,6 +232,8 @@ function AvatarSetup({ onSaved }: { onSaved: (views: AvatarView[]) => void }) {
 
 function TryOnContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const productShopUrl = searchParams.get("url")?.trim() || "";
 
   // "loading" while we check API, "setup" if no avatar, "ready" once we have views
   const [phase, setPhase] = useState<"loading" | "setup" | "ready">("loading");
@@ -277,6 +282,16 @@ function TryOnContent() {
         })
         .catch(() => setPhase("setup"));
     }
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setSavedItems(readStorage<Product[]>(SAVED_KEY, []));
+    window.addEventListener(SAVED_ITEMS_CHANGED_EVENT, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(SAVED_ITEMS_CHANGED_EVENT, sync);
+      window.removeEventListener("storage", sync);
+    };
   }, []);
 
   const handleAvatarSaved = (views: AvatarView[]) => {
@@ -397,11 +412,12 @@ function TryOnContent() {
   // ── Main two-panel layout ─────────────────────────────────────────────────────
 
   return (
-    <div>
+    <div className="w-full max-w-6xl mx-auto px-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div>
           <button
+            type="button"
             onClick={() => router.back()}
             className="flex items-center gap-1.5 text-xs text-brand-soft hover:text-brand transition-colors mb-1"
           >
@@ -413,11 +429,24 @@ function TryOnContent() {
           </div>
         </div>
         <button
+          type="button"
           onClick={changeAvatar}
           className="text-xs text-brand-soft border border-[rgba(102,12,13,0.12)] rounded-full px-3 py-1.5 hover:border-brand-soft transition-colors"
         >
           avatar · {avatarViews[0]?.label.toLowerCase()}
         </button>
+      </div>
+
+      <div
+        className="rounded-2xl px-4 py-4 text-center mb-5"
+        style={{
+          background: "linear-gradient(135deg, rgba(251,225,204,0.75) 0%, rgba(242,161,95,0.22) 100%)",
+          border: "1px solid #E5BE9A",
+        }}
+      >
+        <p className="text-sm text-brand leading-relaxed">
+          Build an outfit from your saved items, then generate try-on previews for each avatar angle.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-4 items-start">
@@ -485,6 +514,7 @@ function TryOnContent() {
                   {activeResult.message ?? "Generation failed"}
                 </p>
                 <button
+                  type="button"
                   onClick={generateOutfit}
                   className="px-5 py-2 rounded-full bg-white text-brand text-xs font-bold"
                 >
@@ -502,6 +532,7 @@ function TryOnContent() {
                 return (
                   <button
                     key={i}
+                    type="button"
                     onClick={() => setActiveViewIdx(i)}
                     className="rounded-full border-none cursor-pointer p-0 transition-all duration-200"
                     style={{
@@ -515,6 +546,17 @@ function TryOnContent() {
                 );
               })}
             </div>
+          )}
+
+          {productShopUrl && (
+            <a
+              href={productShopUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex w-full items-center justify-center py-3 rounded-xl text-sm font-semibold text-white bg-[#5A171A] transition-colors hover:bg-[#C96F35]"
+            >
+              Shop this piece →
+            </a>
           )}
         </div>
 

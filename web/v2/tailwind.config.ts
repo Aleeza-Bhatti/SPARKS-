@@ -9,16 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // V1 brand palette
-        brand:    "#660C0D",
-        "brand-soft": "rgba(102,12,13,0.55)",
+        // High-contrast sunset palette
+        brand:    "#5A171A",
+        "brand-soft": "#8A3F37",
         cream:    "#FFFCF8",
         "card-bg": "rgba(255,252,248,0.85)",
-        "warm-line": "rgba(102,12,13,0.1)",
+        "warm-line": "#E5BE9A",
         // Keep these for any components still using them
-        sage:      "#660C0D",
-        terracotta:"#a35a57",
-        "brand-amber": "#c97d52",
+        sage:      "#5A171A",
+        terracotta:"#C96F35",
+        "brand-amber": "#F2A15F",
       },
       fontFamily: {
         sans:    ["Urbanist", "system-ui", "sans-serif"],

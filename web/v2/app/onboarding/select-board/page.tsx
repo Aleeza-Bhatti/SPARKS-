@@ -64,7 +64,7 @@ export default function SelectBoardPage() {
           <div className="loading-bar h-1.5 w-full rounded-full mb-5">
             <div className="loading-bar-fill" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="responsive-square-grid">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="aspect-square rounded-xl skeleton" />
             ))}
@@ -82,7 +82,7 @@ export default function SelectBoardPage() {
       )}
 
       {!loading && !error && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="responsive-square-grid">
           {boards.map((board) => {
             const isSelecting = selecting === board.id;
             return (

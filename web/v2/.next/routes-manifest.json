@@ -1,1 +1,119 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/occasion",
+      "regex": "^/occasion(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/occasion(?:/)?$"
+    },
+    {
+      "page": "/onboarding/confirm",
+      "regex": "^/onboarding/confirm(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/confirm(?:/)?$"
+    },
+    {
+      "page": "/onboarding/connect",
+      "regex": "^/onboarding/connect(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/connect(?:/)?$"
+    },
+    {
+      "page": "/onboarding/select-board",
+      "regex": "^/onboarding/select\\-board(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/select\\-board(?:/)?$"
+    },
+    {
+      "page": "/onboarding/standards",
+      "regex": "^/onboarding/standards(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/standards(?:/)?$"
+    },
+    {
+      "page": "/onboarding/style-summary",
+      "regex": "^/onboarding/style\\-summary(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/style\\-summary(?:/)?$"
+    },
+    {
+      "page": "/onboarding/swipe",
+      "regex": "^/onboarding/swipe(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/swipe(?:/)?$"
+    },
+    {
+      "page": "/saved",
+      "regex": "^/saved(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/saved(?:/)?$"
+    },
+    {
+      "page": "/search",
+      "regex": "^/search(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/search(?:/)?$"
+    },
+    {
+      "page": "/today",
+      "regex": "^/today(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/today(?:/)?$"
+    },
+    {
+      "page": "/tryon",
+      "regex": "^/tryon(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/tryon(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

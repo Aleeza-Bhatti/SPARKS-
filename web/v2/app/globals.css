@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --brand: #660C0D;
-  --brand-soft: rgba(102, 12, 13, 0.5);
+  --brand: #5A171A;
+  --brand-soft: #8A3F37;
   --cream: #FFFCF8;
   --card-bg: rgba(255, 252, 248, 0.95);
-  --warm-line: rgba(102, 12, 13, 0.12);
+  --warm-line: #E5BE9A;
   /* Gradient used only for special accents */
-  --grad-start: #FFCFC5;
-  --grad-end: #FFD0AE;
+  --grad-start: #FBE1CC;
+  --grad-end: #F2A15F;
 }
 
 *, *::before, *::after {
@@ -39,11 +39,11 @@ body {
 
 /* ── Sparkle gradient used for loading bars, hero highlights ── */
 .sparks-gradient {
-  background: linear-gradient(135deg, #FFCFC5 0%, #FFD0AE 100%);
+  background: linear-gradient(135deg, #FBE1CC 0%, #F2A15F 100%);
 }
 
 .sparks-gradient-text {
-  background: linear-gradient(110deg, #c24f5a 0%, #d7655c 30%, #ffd8bf 50%, #c94f68 70%, #af6a43 100%);
+  background: linear-gradient(110deg, #5A171A 0%, #C96F35 34%, #F2A15F 58%, #7A2B24 100%);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -76,7 +76,7 @@ body {
   height: 100%;
   width: 30%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #FFCFC5, #c24f5a, #FFD0AE);
+  background: linear-gradient(90deg, #FBE1CC, #C96F35, #F2A15F);
   animation: loading-bar 1.6s ease-in-out infinite;
 }
 
@@ -114,4 +114,37 @@ body {
 }
 .carousel-track:hover {
   animation-play-state: paused;
+}
+
+@layer components {
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+    gap: 0.875rem;
+  }
+
+  @media (min-width: 640px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.125rem;
+    }
+  }
+
+  .responsive-square-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .responsive-square-grid {
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+  }
 }

@@ -6,11 +6,11 @@ import type { Product } from "@/lib/types";
 
 const CHIPS: { label: string; prefill: string }[] = [
   { label: "Wedding guest", prefill: "A friend's outdoor wedding this summer — I'm a guest. Garden-style ceremony, indoor reception. Looking for a modest floor-length gown or elegant two-piece. Budget around $150–$250." },
-  { label: "First day at work", prefill: "Starting a new corporate job next month, business casual office. I need 2–3 key pieces that look polished and professional but still feel like me. Budget around $300 total." },
+  { label: "Business formal", prefill: "Starting a new corporate job next month, business casual office. I need 2–3 key pieces that look polished and professional but still feel like me. Budget around $300 total." },
   { label: "Vacation capsule", prefill: "Travelling to Morocco for 10 days in spring — mix of cities and desert. Full coverage is important, weather will be warm. Looking for a 5–6 piece capsule that all works together." },
   { label: "Date night", prefill: "Dinner date this weekend at a nice restaurant. I want to feel special but not overdressed — elevated and feminine. Budget around $100." },
   { label: "Holiday party", prefill: "Company holiday party next month, semi-formal indoor venue. Looking for something festive but still work-appropriate. Budget around $150." },
-  { label: "Eid / Yom Tov", prefill: "Eid Al-Fitr with family — full day of visiting and celebrations. Traditional but modern aesthetic. Flowing, elegant. Budget around $200." },
+  { label: "Eid", prefill: "Eid Al-Fitr with family — full day of visiting and celebrations. Traditional but modern aesthetic. Flowing, elegant. Budget around $200." },
   { label: "Travel", prefill: "Weekend city trip — lots of walking, a nice dinner out, and a museum visit. Need one outfit that works for all three. Comfortable and put-together." },
 ];
 
@@ -66,19 +66,13 @@ export default function OccasionPage() {
     <div>
       {/* Header */}
       <div className="mb-6">
-        <div className="flex items-center gap-2 mb-1">
-          <img src="/assets/sparkle.svg" alt="" className="w-4 h-4 sparkle-pulse" />
-          <p className="text-xs font-semibold tracking-widest uppercase text-brand-soft">
-            Shop for a moment
-          </p>
-        </div>
         <h1 className="text-3xl font-display font-medium text-brand tracking-tight">
           Tell us what you&apos;re shopping for.
         </h1>
       </div>
 
       {/* Two-column layout */}
-      <div className="grid lg:grid-cols-[2fr_3fr] gap-6 items-start">
+      <div className="grid xl:grid-cols-[minmax(320px,0.8fr)_minmax(0,2.2fr)] gap-6 items-start">
 
         {/* LEFT — inputs */}
         <div className="flex flex-col gap-4">
@@ -113,14 +107,16 @@ export default function OccasionPage() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-brand">Upload Pinterest Board</p>
-                <p className="text-xs text-brand-soft mt-1">Connect a board to personalize your results</p>
+                <p className="text-xs text-brand-soft mt-1">
+                  Connect a board that depicts what you&apos;re shopping for
+                </p>
               </div>
             </button>
           )}
 
           {/* Quick chips */}
           <div>
-            <p className="text-xs font-semibold text-brand-soft uppercase tracking-wide mb-2">Quick picks</p>
+            <p className="text-xs font-semibold text-brand-soft uppercase tracking-wide mb-2">Quick Options</p>
             <div className="flex flex-wrap gap-2">
               {CHIPS.map(({ label, prefill }) => (
                 <button
@@ -158,8 +154,7 @@ export default function OccasionPage() {
           <button
             onClick={handleSubmit}
             disabled={!text.trim() || loading}
-            className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white disabled:opacity-40 transition-opacity hover:opacity-90"
-            style={{ background: "linear-gradient(135deg, #c24f5a, #af6a43)" }}
+            className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white bg-[#5A171A] disabled:opacity-40 transition-colors hover:bg-[#C96F35]"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -208,7 +203,7 @@ export default function OccasionPage() {
                   No matches found. Try rephrasing your occasion.
                 </p>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="product-grid">
                   {results.map((p) => (
                     <ProductCard key={p.id} product={p} />
                   ))}
