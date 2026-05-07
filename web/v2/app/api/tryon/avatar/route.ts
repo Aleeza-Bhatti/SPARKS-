@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 import { createAdminClient } from "@/lib/supabase/server";
 
-const VIEW_LABELS = ["Front", "Back", "Left", "Right"] as const;
+const VIEW_LABELS = ["Front", "Left", "Back", "Right"] as const;
 
 type AvatarView = { label: string; url: string };
 
@@ -102,8 +102,8 @@ export async function POST(request: Request) {
     );
 
   if (error) {
-    console.error("[avatar] db save error:", error.message);
-    return NextResponse.json({ error: "Failed to save avatar" }, { status: 500 });
+    console.error("[avatar] db save error:", error.message, error.code, error.details, error.hint);
+    return NextResponse.json({ error: "Failed to save avatar", detail: error.message }, { status: 500 });
   }
 
   return NextResponse.json({ avatarViews: views });

@@ -5,7 +5,7 @@ export default function MarketingNav() {
   return (
     <nav className="flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-8 max-w-[1800px] mx-auto w-full gap-4">
       <Link href="/" className="flex items-center">
-        <Image src="/sparks-logo.png" alt="Sparks" width={100} height={32} className="h-8 w-auto" priority />
+        <Image src="/sparks-logo.png" alt="Sparks" width={160} height={52} className="h-11 sm:h-13 w-auto" priority />
       </Link>
 
       <div className="hidden sm:flex items-center gap-7 text-sm text-brand-soft">

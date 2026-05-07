@@ -10,9 +10,8 @@ export default function ConnectPage() {
         Show us what you love.
       </h2>
       <p className="text-brand-soft text-base leading-relaxed mb-8">
-        Connect a Pinterest board — outfits, mood boards, anything. We&apos;ll
-        learn your aesthetic in seconds. Nothing&apos;s shared, nothing&apos;s
-        posted.
+        Connect a Pinterest board of outfits, mood boards, anything. We&apos;ll
+        learn your aesthetic in seconds.
       </p>
 
       <a
@@ -34,11 +33,20 @@ export default function ConnectPage() {
       </a>
 
       {/* Privacy note */}
-      <div className="flex items-start gap-2.5 bg-white border border-[rgba(102,12,13,0.08)] rounded-xl px-4 py-3">
+      <div className="flex items-start gap-2.5 bg-white border border-[rgba(102,12,13,0.08)] rounded-xl px-4 py-3 mb-6">
         <img src="/assets/sparkle.svg" alt="" className="w-4 h-4 mt-0.5 opacity-60 flex-shrink-0" />
         <p className="text-xs text-brand-soft leading-relaxed">
           We only read the board you choose. We never post, share, or store your Pinterest credentials.
         </p>
+      </div>
+
+      <div className="text-center">
+        <a
+          href="/onboarding/swipe"
+          className="text-sm text-brand-soft hover:text-brand transition-colors underline-offset-2 hover:underline"
+        >
+          Skip for now →
+        </a>
       </div>
     </div>
   );

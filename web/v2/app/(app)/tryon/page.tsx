@@ -19,7 +19,7 @@ type ViewResult =
 const AVATAR_CACHE_KEY = "sparks_v2_avatar_views";
 const SAVED_KEY        = "sparks_v2_saved";
 
-const VIEW_LABELS = ["Front", "Back", "Left", "Right"] as const;
+const VIEW_LABELS = ["Front", "Left", "Back", "Right"] as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -437,130 +437,9 @@ function TryOnContent() {
         </button>
       </div>
 
-      <div
-        className="rounded-2xl px-4 py-4 text-center mb-5"
-        style={{
-          background: "linear-gradient(135deg, rgba(251,225,204,0.75) 0%, rgba(242,161,95,0.22) 100%)",
-          border: "1px solid #E5BE9A",
-        }}
-      >
-        <p className="text-sm text-brand leading-relaxed">
-          Build an outfit from your saved items, then generate try-on previews for each avatar angle.
-        </p>
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[52fr_48fr] gap-4 items-start">
 
-      <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-4 items-start">
-
-        {/* ── LEFT: Avatar viewer ── */}
-        <div>
-          {/* View tabs + status */}
-          <div className="flex items-center justify-between mb-3 gap-3">
-            <div className="flex bg-[rgba(102,12,13,0.05)] rounded-full p-0.5 flex-shrink-0">
-              {avatarViews.map((view, i) => (
-                <button
-                  key={view.label}
-                  onClick={() => setActiveViewIdx(i)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    activeViewIdx === i
-                      ? "bg-brand text-white shadow-sm font-semibold"
-                      : "text-brand-soft hover:text-brand"
-                  }`}
-                >
-                  {view.label}
-                </button>
-              ))}
-            </div>
-            {isGenerating && (
-              <span className="text-xs text-brand-soft italic whitespace-nowrap">
-                generating · {doneCount} of {avatarViews.length} views
-              </span>
-            )}
-          </div>
-
-          {/* Avatar image */}
-          <div
-            className="relative rounded-2xl overflow-hidden bg-[rgba(102,12,13,0.04)] shadow-[0_4px_32px_rgba(102,12,13,0.10)]"
-            style={{ aspectRatio: "2/3" }}
-          >
-            {activeView && (
-              <Image
-                src={activeView.url}
-                alt={`${activeView.label} view`}
-                fill
-                className={`object-cover transition-[filter] duration-300 ${activeResult?.type === "loading" ? "blur-md brightness-75" : ""}`}
-                unoptimized
-              />
-            )}
-            {activeResult?.type === "done" && (
-              <Image
-                src={activeResult.url}
-                alt="Try-on result"
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            )}
-            {activeResult?.type === "loading" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                <div className="loading-bar h-1 w-24 rounded-full">
-                  <div className="loading-bar-fill" />
-                </div>
-                <span className="text-xs text-white font-semibold drop-shadow">Fitting outfit…</span>
-              </div>
-            )}
-            {activeResult?.type === "error" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/35 p-6">
-                <p className="text-sm font-semibold text-white text-center">
-                  {activeResult.message ?? "Generation failed"}
-                </p>
-                <button
-                  type="button"
-                  onClick={generateOutfit}
-                  className="px-5 py-2 rounded-full bg-white text-brand text-xs font-bold"
-                >
-                  Retry
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* View dots */}
-          {avatarViews.length > 1 && (
-            <div className="flex justify-center items-center gap-1.5 mt-3">
-              {avatarViews.map((_, i) => {
-                const res = viewResults.get(avatarViews[i].label);
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setActiveViewIdx(i)}
-                    className="rounded-full border-none cursor-pointer p-0 transition-all duration-200"
-                    style={{
-                      width: i === activeViewIdx ? 20 : 8,
-                      height: 8,
-                      background: i === activeViewIdx
-                        ? "rgba(102,12,13,0.8)"
-                        : res?.type === "done" ? "rgba(102,12,13,0.35)" : "rgba(102,12,13,0.15)",
-                    }}
-                  />
-                );
-              })}
-            </div>
-          )}
-
-          {productShopUrl && (
-            <a
-              href={productShopUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 flex w-full items-center justify-center py-3 rounded-xl text-sm font-semibold text-white bg-[#5A171A] transition-colors hover:bg-[#C96F35]"
-            >
-              Shop this piece →
-            </a>
-          )}
-        </div>
-
-        {/* ── RIGHT: Outfit panel ── */}
+        {/* ── LEFT: Outfit panel ── */}
         <div className="flex flex-col gap-3">
 
           {/* Current outfit */}
@@ -664,7 +543,7 @@ function TryOnContent() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-1.5 max-h-[360px] overflow-y-auto pr-0.5">
+              <div className="grid grid-cols-4 gap-1.5 max-h-[300px] overflow-y-auto pr-0.5">
                 {savedItems.map((item) => {
                   const isAdded = outfitIds.has(item.id);
                   return (
@@ -682,7 +561,7 @@ function TryOnContent() {
                         fill
                         className="object-cover"
                         unoptimized
-                        sizes="120px"
+                        sizes="90px"
                       />
                       {isAdded && (
                         <div className="absolute top-1 right-1 bg-brand text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
@@ -702,6 +581,142 @@ function TryOnContent() {
           </div>
 
         </div>
+
+        {/* ── RIGHT: Avatar viewer ── */}
+        <div className="max-w-[400px] mx-auto lg:ml-auto lg:mr-0 w-full">
+          {/* View tabs + status */}
+          <div className="flex items-center justify-between mb-3 gap-3">
+            <div className="flex bg-[rgba(102,12,13,0.05)] rounded-full p-0.5 flex-shrink-0">
+              {avatarViews.map((view, i) => (
+                <button
+                  key={view.label}
+                  onClick={() => setActiveViewIdx(i)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    activeViewIdx === i
+                      ? "bg-brand text-white shadow-sm font-semibold"
+                      : "text-brand-soft hover:text-brand"
+                  }`}
+                >
+                  {view.label}
+                </button>
+              ))}
+            </div>
+            {isGenerating && (
+              <span className="text-xs text-brand-soft italic whitespace-nowrap">
+                generating · {doneCount} of {avatarViews.length} views
+              </span>
+            )}
+          </div>
+
+          {/* Avatar image */}
+          <div
+            className="relative rounded-2xl overflow-hidden bg-[rgba(102,12,13,0.04)] shadow-[0_4px_32px_rgba(102,12,13,0.10)]"
+            style={{ aspectRatio: "2/3" }}
+          >
+            {activeView && (
+              <Image
+                src={activeView.url}
+                alt={`${activeView.label} view`}
+                fill
+                className={`object-cover transition-[filter] duration-300 ${activeResult?.type === "loading" ? "blur-md brightness-75" : ""}`}
+                unoptimized
+              />
+            )}
+            {activeResult?.type === "done" && (
+              <Image
+                src={activeResult.url}
+                alt="Try-on result"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            )}
+            {activeResult?.type === "loading" && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                <div className="loading-bar h-1 w-24 rounded-full">
+                  <div className="loading-bar-fill" />
+                </div>
+                <span className="text-xs text-white font-semibold drop-shadow">Fitting outfit…</span>
+              </div>
+            )}
+            {activeResult?.type === "error" && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/35 p-6">
+                <p className="text-sm font-semibold text-white text-center">
+                  {activeResult.message ?? "Generation failed"}
+                </p>
+                <button
+                  type="button"
+                  onClick={generateOutfit}
+                  className="px-5 py-2 rounded-full bg-white text-brand text-xs font-bold"
+                >
+                  Retry
+                </button>
+              </div>
+            )}
+
+            {/* Left / right navigation arrows */}
+            {avatarViews.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setActiveViewIdx((i) => (i - 1 + avatarViews.length) % avatarViews.length)}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-colors border-none cursor-pointer"
+                  aria-label="Previous view"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(102,12,13,0.7)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveViewIdx((i) => (i + 1) % avatarViews.length)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-colors border-none cursor-pointer"
+                  aria-label="Next view"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(102,12,13,0.7)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* View dots */}
+          {avatarViews.length > 1 && (
+            <div className="flex justify-center items-center gap-1.5 mt-3">
+              {avatarViews.map((_, i) => {
+                const res = viewResults.get(avatarViews[i].label);
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setActiveViewIdx(i)}
+                    className="rounded-full border-none cursor-pointer p-0 transition-all duration-200"
+                    style={{
+                      width: i === activeViewIdx ? 20 : 8,
+                      height: 8,
+                      background: i === activeViewIdx
+                        ? "rgba(102,12,13,0.8)"
+                        : res?.type === "done" ? "rgba(102,12,13,0.35)" : "rgba(102,12,13,0.15)",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {productShopUrl && (
+            <a
+              href={productShopUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex w-full items-center justify-center py-3 rounded-xl text-sm font-semibold text-white bg-[#5A171A] transition-colors hover:bg-[#C96F35]"
+            >
+              Shop this piece →
+            </a>
+          )}
+        </div>
+
       </div>
     </div>
   );
